@@ -1,0 +1,26 @@
+@mixin flex($justify, $align) {
+    display: flex;
+    
+    @if $justify == 0 {
+        justify-content: center;
+    }
+    @else if $justify == 1 {
+        justify-content: space-around;
+    }
+    @else if $justify == 2 {
+        justify-content: space-between;
+    }
+    @else if $justify == 3 {
+        justify-content: space-evenly;
+    }
+
+    @if $align == -1 {
+        align-items: start;
+    }
+    @else if $align == 0 {
+        align-items: center;
+    }
+    @else if $align == 1 {
+        align-items: end;
+    }
+}

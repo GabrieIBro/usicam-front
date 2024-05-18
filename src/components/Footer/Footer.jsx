@@ -24,8 +24,8 @@ function Footer() {
                     <div className="footer__info__contato">
                         <p>Contatos</p>
                         <div className="footer__info__contato_content">
-                            <p>Telefone: (71)9 9641-6117</p>
-                            <p>Email: usicam.metal@gmail.com</p>
+                            <p>(71)9 9641-6117</p>
+                            <p>usicam.metal@gmail.com</p>
                             <p>Rua do Uruguai, 456a, Salvador-BA</p>
                         </div>
                     </div>       

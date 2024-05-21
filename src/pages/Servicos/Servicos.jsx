@@ -6,6 +6,7 @@ function Servicos() {
 	return(
 		<>
 			<Header/>
+			<img></img>
 			<Footer/>
 		</>
 	);

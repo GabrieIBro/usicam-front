@@ -4,16 +4,23 @@ import Footer from "../../components/Footer/Footer";
 import ReCAPTCHA from "react-google-recaptcha";
 import axios from "axios";
 import {InputMask} from "@react-input/mask";
+import {Map, Marker, APIProvider} from "@vis.gl/react-google-maps"
 import "./contato.scss";
 
 function Contato() {
 	const [values, setValues] = useState({});
 	const [errors, setErrors] = useState({});
+	const [submitResult, setSubmitResult] = useState("");
 
 	const recaptcha = useRef();
 
 	function handleChange(event) {
-		setValues({...values, [event.target.name]: event.target.value});
+		setValues(prev => ({...prev, [event.target.name]: event.target.value}));
+		setSubmitResult("");
+	}
+
+	function handleRecaptcha() {
+		setValues(prev => ({...prev, captchaValue: recaptcha.current.getValue()}));
 	}
 
 	function handleInput(event) {
@@ -83,11 +90,16 @@ function Contato() {
 		errorList = errorList.filter(item => item !== "");
 		
 		if(errorList.length === 0 && recaptcha.current.getValue()) {
-
-			setValues(prev => ({...prev, captchaValue: recaptcha.current.getValue()}));
 			
 			const result = await axios.post(`http://localhost:8080/api/novaMensagem`, values);
-			console.log(result);
+			
+			if(result.status === 201) {
+				setValues({nome:"", email:"", telefone:"", mensagem:"", captchaValue:"", success:true});
+				setSubmitResult("Formulário Enviado com Sucesso!");
+			}
+			else {
+				setSubmitResult("Falha no Envio do Formulário!");
+			}
 		}
 	}
 
@@ -101,6 +113,35 @@ function Contato() {
 			
 			<div className="page-content-container">
 				<div className="page-content">
+					<div className="page-content__info-contato">
+						<div className="telefone">
+							<p>Telefone</p>
+							<p>(71)99641-6117</p>
+						</div>
+
+						<div className="email">
+							<p>E-mail</p>
+							<p>usicam.metal@gmail.com</p>
+						</div>
+
+						<div className="endereco">
+							<p>Endereço</p>
+							<p>Rua do Uruguai, 456a, Salvador-BA</p>
+						</div>
+						<div className="page-content__info-contato__map">
+							<APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_KEY}>
+								<Map defaultZoom={20} 
+									defaultCenter={{lat: -12.930998, lng: -38.493318}}>
+									
+									<Marker position={{lat: -12.930998, lng: -38.493318}}
+									onClick={() => window.location.href = "https://www.google.com/maps/place/Rua+do+Uruguay,+456a+-+Uruguai,+Salvador+-+BA,+40445-040/@-12.9309772,-38.4939715,19z/data=!3m1!4b1!4m6!3m5!1s0x7160557a910e6cf:0x72db87de1d3dca18!8m2!3d-12.9309785!4d-38.4933278!16s%2Fg%2F11f3vrrnfl?entry=ttu"}>
+									</Marker>
+				
+								</Map>
+							</APIProvider>
+						</div>
+					</div>
+
 					<form className="page-content__form" 
 							onSubmit={(event) => handleSubmit(event) }>
 
@@ -135,16 +176,6 @@ function Contato() {
 
 						<div className="form-field">
 							<label htmlFor="telefone">Telefone</label>
-							{/* <input 
-								className={(errors.telefone) ? "active-error" : ""}
-								name="telefone"
-								type="tel" 
-								id="telefone"
-								value={values.telefone}
-								maxLength="14"
-								onChange={(event) => handleChange(event)}
-								onBlur={event => handleInput(event)}
-							/> */}
 							<InputMask 	
 								className={(errors.telefone) ? "active-error" : ""}
 								name="telefone"
@@ -178,30 +209,13 @@ function Contato() {
 							<ReCAPTCHA sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY} 
 										hl="pt-BR"
 										ref={recaptcha}
+										onChange={handleRecaptcha}
 							/>
 							<button type="submit">Enviar</button>
 						</div>
+						<p className="submit-result">{submitResult}</p>
 					</form>
 
-					<div className="page-content__info-contato">
-						<div className="telefone">
-							<p>Telefone</p>
-							<p>(71)9 9641-6117</p>
-						</div>
-
-						<div className="email">
-							<p>E-mail</p>
-							<p>usicam.metal@gmail.com</p>
-						</div>
-
-						<div className="endereco">
-							<p>Endereço</p>
-							<p>Rua do Uruguai, 456a, Salvador-BA</p>
-						</div>
-						<div className="page-content__info-contato__map">
-
-						</div>
-					</div>
 				</div>
 			</div>
 			<Footer/>

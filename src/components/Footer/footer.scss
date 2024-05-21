@@ -4,6 +4,7 @@
 
 footer {
     background-color: $light-gray;
+    margin-top: auto
 }
 
 .footer {
@@ -76,5 +77,20 @@ footer {
 
     &__rights {
         margin-bottom: 10px;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .footer__info__contato {
+        display: none;
+    }
+
+    p {
+        font-size: 18px;
+    }
+
+    .footer__rights {
+        text-align: center;
+        margin: 0 10px;
     }
 }

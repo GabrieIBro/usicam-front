@@ -5,7 +5,8 @@
 .page-introduction {
     @include flex(0,0);
     flex-direction: column;
-    height: 200px;    
+    height: 200px;   
+    min-height: 200px; 
     width: 100%;
     background-color: $navy-blue-primary;
     * {
@@ -23,19 +24,23 @@
 .page-content-container {
     @include flex(0,0);
     width: 100%;
+    margin-top: auto
 }
 
 .page-content {
     @include flex(3,0);
     width: 100%;
     max-width: 1920px;
-    margin: 100px 0;
+    margin: 50px 0;
+    flex-wrap: wrap;
 
     &__form {
         width: 600px;
         background-color: $navy-blue-primary;
         padding: 30px 40px;
         border-radius: 7px;
+        position: relative;
+        margin: 20px 0;
 
         .form-field {
             display: flex;
@@ -84,7 +89,7 @@
 
         .submit-section {
             @include flex(3, 0);
-            margin-top: 30px;
+            margin: 30px 0;
             button {
                 background-color: transparent;
                 border: 1px solid white;
@@ -105,20 +110,34 @@
                 }
             }
         }
+
+        .submit-result {
+            position: absolute;
+            width: 100%;
+            left: 0;
+            bottom: 2%;
+            text-align: center;
+            color: white;
+            font-size: $font-normal;
+        }
     }
 
     &__info-contato {
-        height: 728px;
+        height: 782px;
         width: 600px;
         background-color: $navy-blue-primary;
         border-radius: 7px;
         color: white;
+        margin: 20px 0;
+
+        .telefone, .email {
+            border-bottom: solid 1px $header-separator-line;
+        }
 
         .telefone, .email, .endereco {
             @include flex(0,0);
             flex-direction: column;
             height: calc(50%/3);
-            border-bottom: solid 1px $header-separator-line;
             margin: 0 10px;
 
             p:first-child {
@@ -133,6 +152,10 @@
 
         &__map {
             height: 50%;
+
+            & > div > div {
+                border-radius: 0px 0px 7px 7px;
+            }
         }
 
 
@@ -141,4 +164,19 @@
 
 .active-error {
     border: solid 1px rgb(204, 38, 38) !important;
+}
+
+@media screen and (max-width: 600px) {
+    .page-content__form {
+        padding: 30px 10px;
+        width: 100%;
+    }
+
+    .submit-section {
+        flex-direction: column;
+
+        * {
+            margin: 10px 0;
+        }
+    }
 }

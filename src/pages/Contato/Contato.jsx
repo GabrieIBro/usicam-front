@@ -2,7 +2,7 @@ import React, {useState, useRef} from "react";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import ReCAPTCHA from "react-google-recaptcha";
-import axios from "axios";
+import axiosInstance from "../../../config/axios";
 import {InputMask} from "@react-input/mask";
 import {Map, Marker, APIProvider} from "@vis.gl/react-google-maps"
 import "./contato.scss";
@@ -91,7 +91,7 @@ function Contato() {
 		
 		if(errorList.length === 0 && recaptcha.current.getValue()) {
 			
-			const result = await axios.post(`http://localhost:8080/api/novaMensagem`, values);
+			const result = await axiosInstance.post(`novaMensagem`, values);
 			
 			if(result.status === 201) {
 				setValues({nome:"", email:"", telefone:"", mensagem:"", captchaValue:"", success:true});

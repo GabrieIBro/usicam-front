@@ -2,9 +2,11 @@ import React, {useState} from "react";
 import { Link } from "react-router-dom";
 import "./header.scss"
 import images from "../../assets/images/images"
+import { useNavigate } from "react-router-dom";
 
 function Header() {
     const [openNavbar, setOpenNavbar] = useState(false);
+    const navigate = useNavigate();
 
     function handleNavbarToggle() {
         setOpenNavbar((prev) => !prev);
@@ -22,7 +24,7 @@ function Header() {
                         <Link to="/servicos" draggable="false">Serviços</Link>
                         <Link to="/contato" draggable="false">Contato</Link>
                     </div>
-                    <button className="navbar__button">Entrar</button>
+                    <button className="navbar__button" onClick={() => navigate("/login")}>Entrar</button>
                 </nav>
 
                 <div className="toggle-navbar" onClick={handleNavbarToggle}>

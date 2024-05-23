@@ -15,7 +15,7 @@ function Footer() {
                     <div className="footer__info__site">
                         <p>Site</p>
                         <div className="footer__info__site__links">
-                            <Link to="/">Login</Link>
+                            <Link to="/login">Login</Link>
                             <Link to="/servicos">Serviços</Link>
                             <Link to="/contato">Contato</Link>
                         </div>
@@ -24,7 +24,7 @@ function Footer() {
                     <div className="footer__info__contato">
                         <p>Contatos</p>
                         <div className="footer__info__contato_content">
-                            <p>(71)9 9641-6117</p>
+                            <p>(71)99641-6117</p>
                             <p>usicam.metal@gmail.com</p>
                             <p>Rua do Uruguai, 456a, Salvador-BA</p>
                         </div>

@@ -1,0 +1,131 @@
+@import "../../scss/functions";
+@import "../../scss/mixins";
+@import "../../scss/variables";
+
+
+
+.login-background {
+    background: linear-gradient(45deg, #1e2779, #0414a1) ;
+    transform: rotate(3deg);
+    border-radius: 10px;
+    margin: auto;
+}
+
+.login-container {
+    @include flex(0, 0);
+    justify-content: space-between;
+    padding: 30px 70px;
+    transform: rotate(-3deg);
+    background-color: rgba(232, 233, 235, 0.979);
+    width: 1000px;
+    height: 400px;
+    border-radius: 10px;
+    box-shadow: 4px 4px 50px 10px #12174238;
+
+    &::after {
+        content: "";
+        width: 1px;
+        height: 90%;
+        background-color: rgb(196, 196, 196);
+        position: absolute;
+        left: 50%;
+    }
+
+    p, label {
+        font-size: 19px;
+    }
+
+    .title-section {
+        height: 100%;
+
+        img {
+            width: 200px;
+            filter: brightness(0) saturate(100%) invert(0%) sepia(0%) saturate(7473%) hue-rotate(175deg) brightness(106%) contrast(94%);
+            margin-bottom: 15px;
+            user-select: none;
+        }
+
+        h1 {
+            letter-spacing: 2px;
+            font-weight: weight("regular");
+        }
+
+
+    }
+
+    .login-fields {
+        height: 350px;
+        padding-top: 20px;
+
+        &__input {
+            @include flex(4, 3);
+            flex-direction: column;
+            min-height: 114px;
+
+            label {
+                margin-top:15px;
+
+            }
+
+            .error-message {
+                color: rgb(204, 38, 38);
+                font-size: 17px;
+                display: none;
+            }
+
+            .error-message-active {
+                display: unset;
+            }
+
+            input {
+                height: 45px;
+                width: 350px;
+                border-radius: 7px;
+                border: solid 1px $light-gray;
+                font-size: 18px;
+                padding: 0 10px;
+
+                &:focus {
+                    outline: 1px solid $navy-blue-primary
+                }
+            }
+
+            .input-error-active {
+                border: 1px solid rgb(204, 38, 38);
+
+                &:focus {
+                    outline: none;
+                }
+            }
+
+        }
+
+        .login-error {
+            color: rgb(204, 38, 38);
+            font-size: 17px;
+            display: none
+        }
+
+        .navigation-buttons {
+            @include flex(2, 0);
+            margin-top: 25px;
+
+            button {
+                height: 45px;
+                width: 120px;
+                border-radius: 7px;
+                border: none;
+                font-size: 18px;
+                background-color: transparent;
+                border: 1px solid black;
+                margin: 0px 1px;
+                transition: all ease-in-out 125ms;
+
+                &:hover {
+                    cursor: pointer;
+                    background-color: #92929257;
+                }
+            }
+        }
+    }
+}

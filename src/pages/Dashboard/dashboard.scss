@@ -1,0 +1,26 @@
+@import "../../scss/functions";
+@import "../../scss/mixins";
+@import "../../scss/variables";
+
+.dashboard {
+    @include flex(0, 0);
+    justify-content: start;
+    height: 100%;
+    border-radius: 5px;
+
+    &__main-container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        width: calc(100% - 275px);
+
+        &__content {
+            display: flex;
+            height: 100%;
+            width: 100%;
+            background-color: rgb(235, 235, 235);
+
+        }
+    }
+}
+

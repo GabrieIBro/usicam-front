@@ -1,0 +1,208 @@
+@import '../../../scss/variables';
+@import '../../../scss/functions';
+@import '../../../scss/mixins';
+
+.mensagens-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 30px 30px
+}
+
+.mensagens-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
+    background-color: white;
+    margin: 0 30px;
+    margin-top: 30px;
+    border-radius: 5px;
+    box-shadow: 4px 4px 5px rgb(214, 214, 214);
+    padding: 0 13px;
+
+    &__remove {
+        @include flex(0, 0);
+
+        button {
+            @include flex(0,0);
+            margin: 0 10px;
+            border: none;
+            background-color: transparent;
+            width: 35px;
+            height: 35px;
+            border-radius: 100px;
+            transition: all ease-in-out 50ms;
+
+            &:hover {
+                cursor: pointer;
+                background-color: rgb(233, 233, 233);
+                box-shadow: 1px 1px 3px rgb(194, 194, 194);
+            }
+
+            &:active {
+                transform: scale(90%);
+            }
+
+            img {
+                width: 20px;
+            }
+        }
+    }
+
+    &__date {
+        @include flex(1, 0);
+    }
+
+    &__recent {
+        appearance: none;
+        width: 170px;
+        height: 35px;
+        font-size: 17px;
+        border: none;
+        background-color: white;
+        border-radius: 4px;
+        padding: 0 10px;
+        transition: all ease-in-out 150ms;
+        background-color: rgb(236, 236, 236);
+        position: relative;
+
+        &:hover {
+            cursor: pointer;
+            background-color: rgb(214, 214, 214)
+        }
+
+        &:focus + .select-wrapper::after {
+            background-color: black;
+        }
+    }
+}
+
+.select-wrapper {
+    position: relative;
+    transition: all ease-in-out 150ms;
+    &::after {
+        position: absolute;
+        content: '';
+        width: 16px;
+        height: 16px;
+        background-color: black;
+        clip-path: polygon(75% 0%,100% 50%,75% 100%,55% 100%,80.00% 50.00%,55% 0%);
+        transform: rotate(90deg);
+        right: 8%;
+        top: 18%
+    }
+}
+
+.select-wrapper-open {
+    position: relative;
+    transition: all ease-in-out 150ms;
+
+    &::after {
+        position: absolute;
+        content: '';
+        width: 16px;
+        height: 16px;
+        background-color: black;
+        clip-path: polygon(75% 0%,100% 50%,75% 100%,55% 100%,80.00% 50.00%,55% 0%);
+        transform: rotate(-90deg);
+        right: 8%;
+        top: 37%;
+    }
+}
+
+.mensagens-item {
+    @include flex(2,0);
+    justify-content: start;
+    width: 100%;
+    font-size: 18px;
+    margin: 3px 0;
+    user-select: none;
+    background-color: white;
+    padding: 3px 3px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgb(197, 197, 197);
+    transition: all ease-in-out 150ms;
+
+    &:hover {
+        cursor: pointer;
+        box-shadow: 2px 2px 5px rgb(170, 170, 170);
+        filter: brightness(97%);
+    }
+
+    input {
+        margin: 0 10px;
+        min-width: 20px;
+    }
+
+    &__nome {
+        height: 30px;
+        width: 175px;
+        min-width: 175px;
+        background-color: white;
+        padding: 0 10px;
+        border-radius: 5px;
+        position: relative;
+
+        &::after {
+            content: '';
+            position: absolute;
+            height: 30px;
+            width: 20px;
+            top: 0;
+            right: 10px;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0.322), rgba(255, 255, 255, 0.829) ,white);
+            border-radius: 5px;
+        }
+
+        p {
+            text-wrap: nowrap;
+            overflow: hidden;
+        }
+    }
+
+    &__mensagem {
+        display: flex;
+        height: 30px;
+        width: calc(100% - 450px);
+        max-width: 1100px;
+        background-color: white;
+        padding: 0 10px;
+        border-radius: 5px;
+        position: relative;
+        margin: 0 25px;
+        text-wrap: nowrap;
+
+        &::after {
+            content: '';
+            position: absolute;
+            height: 30px;
+            width: 20px;
+            top: 0;
+            right: 10px;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0.322), rgba(255, 255, 255, 0.829) ,white);
+            border-radius: 5px;
+        }
+
+        p {
+            display: flex;
+            text-overflow: ellipsis'[..]';
+            overflow: hidden;
+            width: 100%;
+        }
+    }
+
+    &__data {
+        height: 30px;
+        min-width: 175px;
+        background-color: white;
+        padding: 0 10px;
+        border-radius: 5px;
+        margin-left: auto;
+
+        p {
+            text-wrap: nowrap;
+            overflow-x: hidden;
+        }
+    }
+}

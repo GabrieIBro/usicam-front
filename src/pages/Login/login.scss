@@ -103,7 +103,6 @@
         .login-error {
             color: rgb(204, 38, 38);
             font-size: 17px;
-            display: none
         }
 
         .navigation-buttons {
@@ -126,6 +125,55 @@
                     background-color: #92929257;
                 }
             }
+
         }
+    }
+}
+
+.loading-overlay {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.712);
+    width: 100%;
+    height: 100%;
+    left: 0;
+    z-index: 999;
+    border-radius: 10px;
+    overflow-x: hidden;
+
+    &::before {
+        position: absolute;
+        content: '';
+        height: 10px;
+        width: 100%;
+        background-color: rgb(214, 214, 214);
+        box-shadow: 5px 0px 10px rgb(214, 214, 214);
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        height: 10px;
+        width: 0px;
+        background-color: $navy-blue-primary;
+        top: 0;
+        border-radius: 4px;
+        left: -10%;
+        box-shadow: 5px 0px 10px #121742;
+        animation: loader 1000ms ease-in-out infinite;
+    }
+}
+
+@keyframes loader {
+    0% {
+        width: 100px;
+    }
+
+    50% {
+        width: 205px;
+    }
+
+    100% {
+        width: 100px;
+        left: 100%;
     }
 }

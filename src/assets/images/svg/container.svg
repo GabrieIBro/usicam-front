@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+
+<svg
+   fill="#000000"
+   width="767.06665"
+   height="779.44"
+   viewBox="0 0 23.012 23.3832"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="container.svg"
+   inkscape:version="1.3.2 (091e20ef0f, 2023-11-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.00625"
+     inkscape:cx="383.60248"
+     inkscape:cy="387.08075"
+     inkscape:window-width="1920"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <path
+     fill-rule="evenodd"
+     d="m 12.653,0.30695863 a 2.25,2.25 0 0 1 2.269,0 l 0.007,0.004 6.957,4.27599997 a 2.276,2.276 0 0 1 1.126,1.964 v 7.5160004 c 0,0.81 -0.432,1.56 -1.133,1.968 l -0.002,10e-4 -11.9639996,7.037 -0.004,0.003 a 2.276,2.276 0 0 1 -2.284,0 l -0.026,-0.015 -6.503,-4.502 A 2.268,2.268 0 0 1 3.6640612e-7,16.615959 V 9.0629586 c 0,-0.392 0.10000000359388,-0.77 0.28400000359388,-1.1 l 0.003,-0.006 0.014,-0.026 a 2.28,2.28 0 0 1 0.82000003,-0.827 h 0.002 L 12.653,0.30595863 Z M 13.41,1.6019586 h -10e-4 l -11.2599996,6.639 6.248,4.2470004 a 0.776,0.776 0 0 0 0.758,-0.01 h 10e-4 L 20.789,5.6739586 l -6.629,-4.074 a 0.75,0.75 0 0 0 -0.75,0.003 z m 4.091,7.732 -3.25,1.9000004 v 7.548 l 3.25,-1.912 z m 1.5,-0.878 v 7.5320004 l 2.124,-1.25 a 0.777,0.777 0 0 0 0.387,-0.671 V 6.9879586 Z m -9.0899996,5.3160004 2.8399996,-1.66 v 7.552 l -3.2329996,1.902 v -7.612 c 0.134,-0.047 0.265,-0.107 0.391,-0.18 z m -1.893,7.754 v -7.571 a 2.277,2.277 0 0 1 -0.393,-0.18 l -0.023,-0.014 -6.102,-4.1470004 v 7.0030004 c 0,0.275 0.145,0.528 0.379,0.664 l 0.025,0.014 6.114,4.232 z"
+     id="path1" />
+</svg>

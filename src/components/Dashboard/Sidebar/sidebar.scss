@@ -1,0 +1,110 @@
+@import '../../../scss/variables';
+@import '../../../scss/functions';
+@import '../../../scss/mixins';
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    height: 100%;
+
+    width: 275px;
+    background-color: rgb(250, 250, 250);
+    padding: 0 20px;
+
+    &__logo {
+        @include flex(0,0);
+        width: 100%;
+
+        img {
+            width: 175px;
+            margin: 20px 0 30px 0;
+            user-select: none;
+            filter: brightness(0) saturate(100%) invert(52%) sepia(0%) saturate(350%) hue-rotate(272deg) brightness(89%) contrast(101%) drop-shadow(0px 0px 20px rgb(131, 131, 131));
+            
+        }
+    }
+
+    &__options {
+        @include flex(0, 0);
+        justify-content: start;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+
+        button {
+            display: flex;
+            width: 100%;
+            height: 60px;
+            border: none;
+            border-right: none;
+            background-color: white;
+            box-shadow: 2px 2px 20px rgb(226, 226, 226);
+            margin: 10px 0;
+            transition: all ease-in-out 150ms;
+            border-radius: 10px;
+            text-align: left;
+            padding-left: 15px;
+            align-items: center;
+
+            &:hover {
+                background-color: rgb(241, 241, 241);
+                box-shadow: 5px 5px 20px rgb(199, 199, 199);
+                cursor: pointer;
+            }
+
+            p {
+                color: rgb(110, 110, 110);
+                font-size: 19px;
+            }
+
+            img {
+                width: 19px;
+                margin-right: 10px;
+                filter: brightness(0) saturate(100%) invert(46%) sepia(0%) saturate(0%) hue-rotate(153deg) brightness(91%) contrast(87%);
+            }
+
+            .usuario-logo, .home-logo {
+                margin-bottom: 3px;
+            }
+
+        }
+        .active-button {
+            background-color: $navy-blue-primary;
+            color: white;
+            box-shadow: 5px 5px 20px #20287062;
+
+            p {
+                color: white;
+            }
+
+            img {
+                filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%);
+            }
+
+            &:hover {
+                background-color: $navy-blue-primary;
+                color: white;
+                box-shadow: 5px 5px 20px #20287062;
+            }
+        }
+        
+        .sair {
+            margin-top: auto;
+            margin-bottom: 20px;
+
+            &:hover {
+                background-color: rgb(204, 38, 38);
+                box-shadow: 5px 5px 20px rgba(204, 38, 38, 0.295);
+                
+                p {
+                    color: white;
+                }
+                
+                img {
+                    filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%);
+                }
+            }
+        }
+    }
+}

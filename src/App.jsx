@@ -5,6 +5,13 @@ import Contato from "./pages/Contato/Contato";
 import Servicos from "./pages/Servicos/Servicos";
 import Login from "./pages/Login/Login";
 
+import Dashboard from "./pages/Dashboard/Dashboard";
+import Overview from "./components/Dashboard/Overview/Overview";
+import Mensagens from "./components/Dashboard/Mensagens/Mensagens";
+import Pedidos from "./components/Dashboard/Pedidos/Pedidos";
+import Usuarios from "./components/Dashboard/Usuarios/Usuarios";
+import Configuracoes from "./components/Dashboard/Configuracoes/Configuracoes";
+
 const router = createBrowserRouter([
 	{
 		path:"/",
@@ -21,6 +28,32 @@ const router = createBrowserRouter([
 	{
 		path:"/login",
 		element: <Login/>
+	},
+	{
+		path:"/dashboard",
+		element: <Dashboard/>,
+		children:[
+			{
+				path:"/dashboard/inicio",
+				element: <Overview/>
+			},
+			{
+				path:"/dashboard/mensagens",
+				element: <Mensagens/>
+			},
+			{
+				path:"/dashboard/pedidos",
+				element: <Pedidos/>
+			},
+			{
+				path:"/dashboard/usuarios",
+				element: <Usuarios/>
+			},
+			{
+				path:"/dashboard/configuracoes",
+				element: <Configuracoes/>
+			}
+		]
 	}
 ])
 

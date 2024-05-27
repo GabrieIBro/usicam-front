@@ -30,9 +30,11 @@ function Inicio() {
 
 			<div className="section-two-container">
 				<div className="section-two">
+					
 					<div className="section-two__media-content">
 						<img src={images.millingMachine}></img>
 					</div>
+
 					<div className="section-two__text-content">
 						<h2>25 Anos de Mercado</h2>
 						<div className="section-two__text-content__description">

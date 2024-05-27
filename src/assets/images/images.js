@@ -11,6 +11,15 @@ import vedacit from "./svg/parceiros/vedacit.svg";
 //
 import heroImage from "./jpg/hero-image.jpg";
 import millingMachine from "./jpg/milling-machine.jpg"
+//
+import homeLogo from "./svg/home.svg";
+import pedidosLogo from "./svg/container.svg";
+import usuariosLogo from "./svg/person.svg";
+import configLogo from "./svg/gear.svg";
+import inboxLogo from "./svg/inbox.svg";
+import signOutLogo from "./svg/sign-out.svg";
+import userLogo from "./svg/user.svg";
+import trash from "./svg/trash.svg";
 
 const images = {
     logoUsicam,
@@ -20,7 +29,15 @@ const images = {
     inicioSecondWave,
     heroImage,
     millingMachine,
-    parceiros:[ype, otis, qboa, vedacit, qboa, otis, ype, vedacit]
+    parceiros:[ype, otis, qboa, vedacit, qboa, otis, ype, vedacit],
+    homeLogo,
+    pedidosLogo,
+    usuariosLogo,
+    configLogo,
+    inboxLogo,
+    signOutLogo,
+    userLogo,
+    trash
 }
 
 export default images;

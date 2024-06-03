@@ -6,7 +6,10 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding: 30px 30px
+    padding: 0px 30px;
+    margin: 30px 0;
+    padding-bottom: 20px;
+    overflow-y: scroll;
 }
 
 .mensagens-controls {
@@ -14,6 +17,7 @@
     align-items: center;
     justify-content: space-between;
     height: 50px;
+    min-height: 50px;
     background-color: white;
     margin: 0 30px;
     margin-top: 30px;
@@ -21,12 +25,16 @@
     box-shadow: 4px 4px 5px rgb(214, 214, 214);
     padding: 0 13px;
 
-    &__remove {
+    &__remove-resync {
         @include flex(0, 0);
+
+        input {
+            margin-right: 7px
+        }
 
         button {
             @include flex(0,0);
-            margin: 0 10px;
+            margin-left:10px;
             border: none;
             background-color: transparent;
             width: 35px;
@@ -48,10 +56,27 @@
                 width: 20px;
             }
         }
+
+        .refresh-button {
+            margin: none !important;
+        }
     }
 
     &__date {
         @include flex(1, 0);
+
+        input {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid black;
+            margin: 0 10px;
+            position: relative;
+            font-size: 16px;
+
+            &:focus {
+                outline: none;
+            }
+        }
     }
 
     &__recent {
@@ -111,6 +136,26 @@
     }
 }
 
+.content-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    &::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 20px;
+        background-color: #ebebeb;
+        bottom: 30px;
+        left: 0;
+        background: linear-gradient(#ebebeb09 ,#ebebeb67, #ebebeb)
+    }
+    
+}
+
 .mensagens-item {
     @include flex(2,0);
     justify-content: start;
@@ -133,6 +178,10 @@
     input {
         margin: 0 10px;
         min-width: 20px;
+    }
+
+    &-visto {
+        filter: brightness(92%);
     }
 
     &__nome {
@@ -203,6 +252,91 @@
         p {
             text-wrap: nowrap;
             overflow-x: hidden;
+        }
+    }
+}
+
+.modal-container {
+    @include flex(0,0);
+    z-index: 200;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    backdrop-filter: blur(10px);
+}
+
+.modal {
+    @include flex(0, 0);
+    flex-direction: column;
+    position: relative;
+    width: 50%;
+    min-width: 500px;
+    min-height: 400px;
+    background-color: white;
+    z-index: 1000;
+    border-radius: 15px;
+    box-shadow: 5px 5px 20px rgb(173, 173, 173);
+    font-size: 20px;
+    padding: 45px 35px;
+
+    &__message-content {
+
+        p {
+            width: 100%;
+            min-width: 550px;
+            border-radius: 7px;
+            box-shadow: 1px 1px 10px rgb(206, 206, 206);
+            margin: 10px 0;
+            padding: 15px;
+            text-align: center;
+        }
+
+        &__mensagem {
+            max-height: 400px;
+            overflow-y: scroll;
+            text-align: unset !important;
+            position: relative;
+        }
+    }
+
+    button {
+        left: 10px;
+        top:10px;
+        position: absolute;
+        height: 40px;
+        width: 40px;
+        border-radius: 100px;
+        border: none;
+        transition: all ease-in-out 125ms;
+        background-color: #979797;
+
+        &:hover {
+            cursor: pointer;
+            background-color: #c4c4c4;
+        }
+    }
+
+    .seen-button {
+        @include flex(0,0);
+        left: 60px;
+
+        img {
+            width: 70%;
+            filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(2%) hue-rotate(320deg) brightness(102%) contrast(101%);
+        }
+    }
+
+    .close-button {
+        &::after {
+            position: absolute;
+            content: '';
+            height: 20px;
+            width: 20px;
+            left: 10px;
+            top: 10px;
+            background-color: rgb(255, 255, 255);
+            clip-path: polygon(20% 0%, 0% 20%, 30% 50%, 0% 80%, 20% 100%, 50% 70%, 80% 100%, 100% 80%, 70% 50%, 100% 20%, 80% 0%, 50% 30%);
         }
     }
 }

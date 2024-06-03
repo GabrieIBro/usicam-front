@@ -20,6 +20,10 @@ import inboxLogo from "./svg/inbox.svg";
 import signOutLogo from "./svg/sign-out.svg";
 import userLogo from "./svg/user.svg";
 import trash from "./svg/trash.svg";
+import eye from "./svg/eye.svg";
+import eyeClosed from "./svg/eye-closed.svg";
+import refresh from "./svg/refresh.svg"
+
 
 const images = {
     logoUsicam,
@@ -37,7 +41,10 @@ const images = {
     inboxLogo,
     signOutLogo,
     userLogo,
-    trash
+    trash,
+    eye,
+    eyeClosed,
+    refresh
 }
 
 export default images;

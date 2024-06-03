@@ -16,7 +16,7 @@
 
         &__content {
             display: flex;
-            height: 100%;
+            height: calc(100% - 70px);
             width: 100%;
             background-color: rgb(235, 235, 235);
 

@@ -22,8 +22,8 @@ import userLogo from "./svg/user.svg";
 import trash from "./svg/trash.svg";
 import eye from "./svg/eye.svg";
 import eyeClosed from "./svg/eye-closed.svg";
-import refresh from "./svg/refresh.svg"
-
+import refresh from "./svg/refresh.svg";
+import check from "./svg/check.svg";
 
 const images = {
     logoUsicam,
@@ -44,7 +44,8 @@ const images = {
     trash,
     eye,
     eyeClosed,
-    refresh
+    refresh,
+    check
 }
 
 export default images;

@@ -55,7 +55,7 @@ function Mensagens() {
         else {
             setCheckAllState(true);
         }
-    }, [checkState])
+    }, [checkState]);
 
     function handleCheck(event) {
         const {id, checked} = event.target

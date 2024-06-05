@@ -64,7 +64,7 @@
             display: none;
         }
 
-        .admin-password-modal {
+        .admin-password-modal, .admin-password-modal-success {
             @include flex(3,0);
             flex-direction: column;
             background-color: rgba(255, 255, 255, 0.829);
@@ -77,8 +77,10 @@
 
             &__input-field {
                 @include flex(0, 0);
+                justify-content: start;
                 flex-direction: column;
                 width: 100%;
+                min-height: 118px;
 
                 label {
                     font-size: 19px;
@@ -97,6 +99,11 @@
                     &:focus {
                         outline: 1px solid $navy-blue-primary;
                     }
+                }
+
+                p {
+                    font-size: 16px;
+                    color: rgb(204, 38, 38)
                 }
             }
 
@@ -121,6 +128,59 @@
                         background-color: rgb(241, 241, 241);
                     }
                 }
+            }
+        }
+
+        .admin-password-modal-success {
+            position: relative;
+
+            .close-button {
+                left: 10px;
+                top:10px;
+                position: absolute;
+                height: 40px;
+                width: 40px;
+                border-radius: 100px;
+                border: none;
+                transition: all ease-in-out 125ms;
+                background-color: #979797;
+    
+                &:hover {
+                    cursor: pointer;
+                    background-color: #c4c4c4;
+                }
+
+                &::after {
+                    position: absolute;
+                    content: '';
+                    height: 20px;
+                    width: 20px;
+                    left: 10px;
+                    top: 10px;
+                    background-color: rgb(255, 255, 255);
+                    clip-path: polygon(20% 0%, 0% 20%, 30% 50%, 0% 80%, 20% 100%, 50% 70%, 80% 100%, 100% 80%, 70% 50%, 100% 20%, 80% 0%, 50% 30%);
+                }
+            }
+
+            div {
+                @include flex(0, 0);
+                flex-direction: column;
+                width: 200px;
+                height: 175px;
+                border-radius: 10px;
+                user-select: none;
+                box-shadow: 2px 2px 10px rgb(228, 228, 228);
+            }
+
+            p {
+                font-size: 20px;
+                color: rgb(116, 116, 116);
+            }
+
+            img {
+                width: 100px;
+                margin-bottom: 10px;
+                filter: brightness(0) saturate(100%) invert(74%) sepia(6%) saturate(3299%) hue-rotate(88deg) brightness(98%) contrast(106%);
             }
         }
     }
@@ -333,6 +393,11 @@
                     margin-left: auto;
                     margin-right: auto;
                     font-size: 19px;
+                    min-width: 300px;
+                    text-align: center;
+                    text-wrap: nowrap;
+                    overflow-x: hidden;
+                    pointer-events: none
                 }
             }
         }
@@ -365,6 +430,7 @@
 
             .alterar-senha__input-fields {
                 @include flex(0, 0);
+                flex-wrap: wrap;
 
                 div {
                     display: flex;

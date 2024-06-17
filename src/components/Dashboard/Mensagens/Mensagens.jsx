@@ -49,12 +49,14 @@ function Mensagens() {
 
     useEffect(() => {
         const values = Object.values(checkState);
+        console.log(values);
         if(values.includes(false)) {
             setCheckAllState(false);
         }
-        else {
+        else if(!values.includes(false) && values.length >= 1) {
             setCheckAllState(true);
         }
+        
     }, [checkState]);
 
     function handleCheck(event) {
@@ -125,6 +127,7 @@ function Mensagens() {
             ))
         )
     }
+
 
     return(
         <div className="content-wrapper">

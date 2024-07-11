@@ -10,7 +10,7 @@
     box-shadow: 3px 3px 15px rgb(211, 211, 211);
     min-height: 100px;
     position: relative;
-    margin: 15px;
+    margin: 15px 0;
 
     &:hover {
         cursor: pointer;
@@ -44,7 +44,7 @@
 .usuarios-container, .usuarios-container-modal-active {
     height: 100%;
     width: 100%;
-    padding: 30px;
+    padding: 20px 30px;
     overflow-y: scroll;
     position: relative;
 

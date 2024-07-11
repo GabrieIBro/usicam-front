@@ -1,0 +1,467 @@
+@import '../../../scss/variables';
+@import '../../../scss/functions';
+@import '../../../scss/mixins';
+
+.pedidos-container {
+    @include flex(0, 0);
+    flex-direction: column;
+    justify-content: start;
+    height: 100%;
+    width: 100%;
+    padding: 20px;
+    position: relative;
+
+    &__modal-wrapper {
+        @include flex(0, 0);        
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 999;
+        backdrop-filter: blur(10px);
+        top: 0;
+
+        &__modal {
+            width: 100%;
+            max-width: 1040px;
+            height: 500px;
+            background-color: white;
+            box-shadow: 5px 5px 20px rgb(173, 173, 173);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            padding: 65px 15px 20px 15px;
+            overflow: hidden;
+
+            button {
+                top:10px;
+                position: absolute;
+                height: 40px;
+                border-radius: 100px;
+                border: none;
+                transition: all ease-in-out 125ms;
+                background-color: #979797;                
+                color: white;
+                font-size: 18px;
+                font-weight: 500;
+                                
+                &:hover {
+                    cursor: pointer;
+                    background-color: #c4c4c4;
+                }
+            }
+
+            .close-button {
+                left: 10px;
+                width: 40px;
+
+                &::after {
+                    position: absolute;
+                    content: '';
+                    height: 20px;
+                    width: 20px;
+                    left: 10px;
+                    top: 10px;
+                    background-color: rgb(255, 255, 255);
+                    clip-path: polygon(20% 0%, 0% 20%, 30% 50%, 0% 80%, 20% 100%, 50% 70%, 80% 100%, 100% 80%, 70% 50%, 100% 20%, 80% 0%, 50% 30%);
+                }
+            }
+
+            .edit-button {
+                @include flex(0, 0);
+                left: 60px;
+                width: 40px;
+
+                img {
+                    width: 25px;
+                    filter: brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(0%) hue-rotate(288deg) brightness(102%) contrast(102%);
+                    margin-left: 2px;
+                }
+            }
+
+            .save-button {
+                right: 10px;
+                width: 100px;
+                animation: saveButtonIn 100ms linear;
+            }
+
+            .finish-button, .finish-button-done {
+                right: 120px;
+                width: 110px;
+                animation: saveButtonIn 100ms linear;
+            }
+
+            .finish-button-done {
+                background-color: rgba(39, 134, 19, 0.75);  
+
+                &:hover {
+                    background-color: #979797;                }
+            }
+            
+            .adicionar-button {
+                left: none;
+                right: 10px;
+                width: 120px;
+            }
+
+            & > div {
+                overflow-y: scroll;
+                height: 100%;
+                padding-right: 15px;
+
+                .pedido-field {
+                    display: flex;
+                    font-size: 17px;
+                    padding: 3px 0;
+                    flex-direction: column;
+                    
+                    div {
+                        display: flex;
+
+                        p:first-child {
+                            @include flex(0, 0);
+                            min-width: 125px;
+                            min-height: 45px;
+                            text-align: center;
+                            border:  1px solid rgb(202, 202, 202);
+                            border-right: none;
+                            border-radius: 5px 0px 0px 5px;
+                            padding: 0 2px;
+                        }
+        
+                        p:last-child {
+                            @include flex(2 ,0);
+                            width: 100%;
+                            max-width: 100%;
+                            padding: 0 10px ;
+                            border:  1px solid rgb(202, 202, 202);
+                            border-radius: 0px 5px 5px 0px;
+                            word-break: break-all;
+                            white-space: normal;
+    
+                            &:focus {
+                                outline: none;
+                                border: 1px solid black;
+    
+                            }
+                        }
+    
+                        textarea {
+                            @include flex(2 ,0);
+                            width: 100%;
+                            max-width: 100%;
+                            min-height: 45px;
+                            padding: 0 10px ;
+                            border:  1px solid rgb(202, 202, 202);
+                            border-radius: 0px 5px 5px 0px;
+                            word-break: break-all;
+                            white-space: normal;
+                            font-size: 17px;
+                            resize: none;
+                            padding: 9px 10px;                        
+                            overflow-y: hidden;
+    
+                            &:focus {
+                                outline: none;
+                                border: 1px solid black;
+                            }
+                        }
+                    }
+                }
+            }
+
+            form {
+                div {
+                    display: flex;
+                    flex-direction: column;
+                    margin-bottom: 15px;
+
+                    label {
+                        font-size: 17px;
+                        user-select: none;
+                    }
+
+                    input {
+                        width: 100%;
+                        height: 45px;
+                        border-radius: 5px;
+                        border: 1px solid rgb(202, 202, 202);
+                        outline: none;
+                        font-size: 17px;
+                        padding: 0 10px;
+
+                        &:focus {
+                            border: 1px solid black
+                        }
+                    }
+
+                    input[type=number] {
+                        appearance: textfield;
+                    }
+                }
+            }
+        }
+    }
+
+    &__controls {
+        @include flex(2, 0);
+        height: 70px;
+        width: 100%;
+        min-height: 70px;
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 4px 4px 5px rgb(214, 214, 214);
+        padding: 0 13px;
+
+        &__refresh {
+            @include flex(0, 0);
+            border: none;
+            background-color: transparent;
+            width: 35px;
+            height: 35px;
+            border-radius: 100px;
+            transition: all ease-in-out 50ms;
+
+            &:hover {
+                cursor: pointer;
+                background-color: rgb(233, 233, 233);
+                box-shadow: 1px 1px 3px rgb(194, 194, 194);
+            }
+
+            img {
+                height: 100%;
+                width: 20px;
+            }
+        }
+
+        &__prazo {
+            position: relative;
+
+            select {
+                appearance: none;
+                width: 170px;
+                height: 35px;
+                font-size: 17px;
+                border: none;
+                border-radius: 4px;
+                padding: 0 10px;
+                transition: all ease-in-out 150ms;
+                background-color: rgb(236, 236, 236);
+                position: relative;
+    
+                &:hover {
+                    cursor: pointer;
+                    background-color: rgb(214, 214, 214)
+                }
+            }
+
+            &::after {
+                position: absolute;
+                content: '';
+                width: 16px;
+                height: 16px;
+                background-color: black;
+                clip-path: polygon(75% 0%,100% 50%,75% 100%,55% 100%,80.00% 50.00%,55% 0%);
+                transform: rotate(90deg);
+                right: 8%;
+                top: 18%;
+                pointer-events: none;
+            }
+        }
+
+        &__recente {
+            position: relative;
+
+            select {
+                appearance: none;
+                width: 170px;
+                height: 35px;
+                font-size: 17px;
+                border: none;
+                border-radius: 4px;
+                padding: 0 10px;
+                transition: all ease-in-out 150ms;
+                background-color: rgb(236, 236, 236);
+                position: relative;
+
+                &:hover {
+                    cursor: pointer;
+                    background-color: rgb(214, 214, 214)
+                }
+            }
+
+
+            &::after {
+                position: absolute;
+                content: '';
+                width: 16px;
+                height: 16px;
+                background-color: black;
+                clip-path: polygon(75% 0%,100% 50%,75% 100%,55% 100%,80.00% 50.00%,55% 0%);
+                transform: rotate(90deg);
+                right: 8%;
+                top: 18%;
+                pointer-events: none;
+            }
+        }
+
+        &__adicionar {
+            width: 185px;
+            height: 35px;
+            font-size: 17px;
+            border: none;
+            border-radius: 4px;
+            padding: 0 10px;
+            transition: all ease-in-out 150ms;
+            background-color: rgb(236, 236, 236);
+            position: relative;
+
+            &:hover {
+                cursor: pointer;
+                background-color: rgb(214, 214, 214)
+            }
+        }
+    }
+
+    &__content {
+        margin-top: 25px;
+        width: 100%;
+        background-color: white;    
+        border-radius: 5px;
+        box-shadow: 4px 4px 5px rgb(214, 214, 214);
+        overflow-x: scroll;
+
+        &__header {
+            @include flex(1, 0);
+            justify-content: start;
+
+            p {
+                @include flex(0, 0);
+                width: 100%;
+                text-align: center;
+                height: 100%;
+                height: 50px;
+                padding-right: 10px;
+                border-bottom: 1px solid rgb(202, 202, 202);
+
+                &:nth-child(1) {
+                    width: 60px;
+                    min-width: 60px
+                }
+                &:nth-child(2) {
+                    width: 100%;
+                    min-width: 200px
+                }
+                &:nth-child(3) {
+                    width: 100%;
+                    min-width: 350px;
+                }
+                &:nth-child(4) {
+                    width: 100%;
+                    min-width: 200px
+                }
+                &:nth-child(5) {
+                    width: 100%;
+                    min-width: 150px
+                }
+                &:nth-child(6) {
+                    width: 60px;
+                    min-width: 60px
+                }
+                &:nth-child(7) {
+                    width: 100%;
+                    min-width: 200px;
+                }
+                &:nth-child(8) {
+                    width: 200px;
+                    min-width: 200px;
+                }
+            }
+        }
+
+        &__pedido, &__pedido-finalizado, &__pedido-vencido {
+            @include flex(0, 0);
+            justify-content: start;
+            padding: 10px 0;
+            transition: all ease-in-out 125ms;
+
+            &:hover {
+                cursor: pointer;
+                background-color: rgb(247, 247, 247);
+            }
+
+            p {
+                @include flex(0, 0);
+                text-wrap:nowrap;
+                overflow-x: hidden;
+                padding-right: 10px;
+                pointer-events: none;
+                user-select: none;
+
+                &:nth-child(1) {
+                    width: 60px;
+                    min-width: 60px
+                }
+                &:nth-child(2) {
+                    width: 100%;
+                    min-width: 200px
+                }
+                &:nth-child(3) {
+                    width: 100%;
+                    min-width: 350px;
+                }
+                &:nth-child(4) {
+                    width: 100%;
+                    min-width: 200px
+                }
+                &:nth-child(5) {
+                    width: 100%;
+                    min-width: 150px
+                }
+                &:nth-child(6) {
+                    width: 60px;
+                    min-width: 60px
+                }
+                &:nth-child(7) {
+                    width: 100%;
+                    min-width: 200px;
+                }
+                &:nth-child(8) {
+                    width: 200px;
+                    min-width: 200px;
+                }
+            }
+        }
+
+        &__pedido-finalizado {
+            filter: opacity(25%);
+
+            &:hover {
+                background-color: rgb(221, 221, 221);
+            }
+        }
+
+        &__pedido-vencido {
+            filter: opacity(25%);
+            background-color: rgb(255, 190, 190);
+
+
+            &:hover {
+                background-color: rgb(255, 224, 224);
+            }
+
+        }
+    }
+}
+
+.hidden {
+    display: none;
+}
+
+@keyframes saveButtonIn {
+    0% {
+        height: 0px;
+    }
+
+    100% {
+        height: 40px;
+    }
+}

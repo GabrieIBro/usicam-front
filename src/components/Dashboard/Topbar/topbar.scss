@@ -22,7 +22,7 @@
 
     &__user {
         @include flex(0, 0);
-        font-size: 19px;
+        font-size: 18px;
         background-color: white;
         padding: 5px 10px;
         border-radius: 7px;
@@ -35,7 +35,16 @@
             border-radius: 100px;
             height: 45px;
             width: 45px;
-            padding-bottom: 5px;
+
+            .default-image {
+                margin-bottom: 5px;
+            }
+
+            .user-image {
+                width: 45px;
+                height: 45px;
+                border-radius: 200px;
+            }
         }
 
         p {

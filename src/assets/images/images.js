@@ -24,6 +24,7 @@ import eye from "./svg/eye.svg";
 import eyeClosed from "./svg/eye-closed.svg";
 import refresh from "./svg/refresh.svg";
 import check from "./svg/check.svg";
+import pencil from "./svg/pencil.svg"
 
 const images = {
     logoUsicam,
@@ -45,7 +46,8 @@ const images = {
     eye,
     eyeClosed,
     refresh,
-    check
+    check,
+    pencil
 }
 
 export default images;

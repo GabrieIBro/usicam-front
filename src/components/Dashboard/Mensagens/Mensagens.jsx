@@ -86,6 +86,24 @@ function Mensagens() {
         setModalIsOpen(prev => !prev);
     }
     
+    function handleKeyDown(event) {
+        if(event.key === 'Escape') {
+            closeModal();
+        }
+    }
+
+    useEffect(() => {
+        if (modalIsOpen) {
+            window.addEventListener('keydown', handleKeyDown);
+        } else {
+            window.removeEventListener('keydown', handleKeyDown);
+        }
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [modalIsOpen]);
+
     function handleSeenButton() {
 
         axiosInstance.patch('/vizualizarMensagem', {id:messageModal.id, value:(messageModal.visto) ? 0 : 1})

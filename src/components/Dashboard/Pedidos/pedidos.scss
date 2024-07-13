@@ -105,7 +105,6 @@
             & > div {
                 overflow-y: scroll;
                 height: 100%;
-                padding-right: 15px;
 
                 .pedido-field {
                     display: flex;
@@ -113,8 +112,23 @@
                     padding: 3px 0;
                     flex-direction: column;
                     
+                    .error-message {
+                        color: rgb(204, 38, 38);
+                        margin-left: 125px;
+                    }
+
                     div {
                         display: flex;
+
+                        .error-active-text {
+                            border: 1px solid rgb(204, 38, 38);
+                            transition: all ease-in-out 125ms;
+                            animation: errorFlash linear 800ms;
+    
+                            &:focus {
+                                border: 1px solid rgb(204, 38, 38);
+                            }
+                        }
 
                         p:first-child {
                             @include flex(0, 0);
@@ -127,7 +141,15 @@
                             padding: 0 2px;
                         }
         
-                        p:last-child {
+
+                        input:read-only {
+                            color: black;
+                            &:focus {
+                                border:  1px solid rgb(202, 202, 202);
+                            }
+                        }
+
+                        p:last-child, input {
                             @include flex(2 ,0);
                             width: 100%;
                             max-width: 100%;
@@ -136,7 +158,8 @@
                             border-radius: 0px 5px 5px 0px;
                             word-break: break-all;
                             white-space: normal;
-    
+                            font-size: 17px;
+
                             &:focus {
                                 outline: none;
                                 border: 1px solid black;
@@ -163,6 +186,18 @@
                                 outline: none;
                                 border: 1px solid black;
                             }
+
+                        }
+
+                        input[type=number] {
+                            -moz-appearance: textfield;
+                            appearance: textfield;
+                        }
+
+                        input::-webkit-outer-spin-button,
+                        input::-webkit-inner-spin-button {
+                        -webkit-appearance: none;
+                        margin: 0;
                         }
                     }
                 }
@@ -463,5 +498,30 @@
 
     100% {
         height: 40px;
+    }
+}
+
+@keyframes errorFlash {
+    0% {
+        opacity: 100%;
+    }
+
+    20% {
+        opacity: 25%;
+    }
+
+    40% {
+        opacity: 100%;
+    }
+
+    60% {
+        opacity: 25%;
+    }
+    80% {
+        opacity: 100%;
+    }
+
+    100% {
+        opacity: 25%;
     }
 }

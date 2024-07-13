@@ -30,6 +30,7 @@ function Pedidos() {
     function toggleModal(event) {
         setOpenModal(prev => !prev);
         setModalOpenMode(event.target.name);
+        setErrorsPedido({});
 
         if(openModal === false) {
             setEditPedidos(false);
@@ -136,12 +137,134 @@ function Pedidos() {
         }
     }, [editPedidos])
 
+    const [errorsPedido, setErrorsPedido] = useState({});
+
+    function handleErrorsPedido(event) {
+        const {name, value} = event.target;
+
+        if(name === "nome") {
+
+            if(!value) {
+                setErrorsPedido(prev => ({...prev, [name]:"Este campo é obrigatório."}));
+            }
+            else if(value.length > 64) {
+                setErrorsPedido(prev => ({...prev, [name]:"O campo deve conter no máximo 300 caracteres."}));
+            }
+            else {
+                setErrorsPedido(prev => ({...prev, [name]:""}));
+            }
+        }
+        else if(name === "descricao") {
+
+            if(!value) {
+                setErrorsPedido(prev => ({...prev, [name]:"Este campo é obrigatório."}));
+            }
+            else if(value.length > 300) {
+                setErrorsPedido(prev => ({...prev, [name]:"O campo deve conter no máximo 300 caracteres."}));
+            }
+            else {
+                setErrorsPedido(prev => ({...prev, [name]:""}));
+            }
+        }
+        else if(name === "prazo") {
+            const date = new Date();
+            const today = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0);
+            const timestamp = today.getTime();
+
+            const inputDate = new Date(value);
+
+            if(!value) {
+                setErrorsPedido(prev => ({...prev, [name]:"Este campo é obrigatório."}));
+            }
+            else if(inputDate.valueOf() < timestamp) {
+                setErrorsPedido(prev => ({...prev, [name]:"O prazo deve ser maior que o dia atual."}));
+            }
+            else {
+                setErrorsPedido(prev => ({...prev, [name]:""}));
+            }
+        }
+        else if(name === "material") {
+
+            if(!value) {
+                setErrorsPedido(prev => ({...prev, [name]:"Este campo é obrigatório."}));
+            }
+            else if(value.length > 30) {
+                setErrorsPedido(prev => ({...prev, [name]:"O campo deve conter no máximo 30 caracteres."}));
+            }
+            else {
+                setErrorsPedido(prev => ({...prev, [name]:""}));
+            }
+        }
+        else if(name === "valor") {
+
+            if(!value) {
+                setErrorsPedido(prev => ({...prev, [name]:"Este campo é obrigatório."}));
+            }
+            else if(isNaN(Number(value))) {
+                setErrorsPedido(prev => ({...prev, [name]:"O campo deve possuir apenas números."}));
+            }
+            else {
+                setErrorsPedido(prev => ({...prev, [name]:""}));
+            }
+        }
+        else if(name === "custoMaterial") {
+
+            if(!value) {
+                setErrorsPedido(prev => ({...prev, [name]:"Este campo é obrigatório."}));
+            }
+            else if(isNaN(Number(value))) {
+                setErrorsPedido(prev => ({...prev, [name]:"O campo deve possuir apenas números."}));
+            }
+            else {
+                setErrorsPedido(prev => ({...prev, [name]:""}));
+            }
+        }
+        else if(name === "quantidade") {
+
+            if(!value) {
+                setErrorsPedido(prev => ({...prev, [name]:"Este campo é obrigatório."}));
+            }
+            else if(isNaN(Number(value))) {
+                setErrorsPedido(prev => ({...prev, [name]:"O campo deve possuir apenas números."}));
+            }
+            else {
+                setErrorsPedido(prev => ({...prev, [name]:""}));
+            }
+        }
+        else if(name === "cliente") {
+
+            if(!value) {
+                setErrorsPedido(prev => ({...prev, [name]:"Este campo é obrigatório."}));
+            }
+            else if(value.length > 100) {
+                setErrorsPedido(prev => ({...prev, [name]:"O campo deve conter no máximo 100 caracteres."}));
+            }
+            else {
+                setErrorsPedido(prev => ({...prev, [name]:""}));
+            }
+        }
+        else if(name === "numero") {
+
+            if(!value) {
+                setErrorsPedido(prev => ({...prev, [name]:"Este campo é obrigatório."}));
+            }
+            else if(!/\(([1-9]{2})\)(9[1-9])[0-9]{3}-[0-9]{4}/.test(value)) {
+                setErrorsPedido(prev => ({...prev, [name]:"Insira um número válido."}));
+            }
+            else {
+                setErrorsPedido(prev => ({...prev, [name]:""}));
+            }
+        }
+
+    }
+
     function handleChangeModal(event) {
         const {name, value} = event.target;
         setPedidoUpdated(prev => ({...prev, [name]:value }));
         
+        handleErrorsPedido(event);
         // When the user deletes a line of text, the height deacreses by one instead of going back to normal. 
-        console.log(event.target.scrollHeight);
+        console.log(pedidoUpdated);
 
         if(event.target.tagName === "TEXTAREA") {
             event.target.style.height = event.target.scrollHeight + "px";
@@ -177,7 +300,6 @@ function Pedidos() {
     }
 
     const [dadosNovoPedido, setDadosNovoPedido] = useState({});
-    const [errorsNovoPedido, setErrorsNovoPedido] = useState({});
 
     function handleChangeAdicionarPedido(event) {
         let {name, value} = event.target;
@@ -250,82 +372,127 @@ function Pedidos() {
                                 <div>
                                     <p name="nome">Nome</p>
                                     {!editPedidos && <p>{pedidoModal.nome}</p>}
-                                    {editPedidos  && <textarea name="nome" value={pedidoUpdated.nome} onChange={event => handleChangeModal(event)} maxLength={64}></textarea>}
+                                    {editPedidos  && <textarea name="nome" 
+                                                                value={pedidoUpdated.nome} 
+                                                                onChange={event => handleChangeModal(event)} 
+                                                                maxLength={64}
+                                                                className={(errorsPedido.nome) ? "error-active-text" : ""}></textarea>}
                                 </div>
-                                <p></p>
+                                {editPedidos && <p className="error-message">{errorsPedido.nome}</p>}
                             </div>
 
                             <div className="pedido-field">
                                 <div>
                                     <p name="descricao">Descrição</p>
                                     {!editPedidos && <p>{pedidoModal.descricao}</p>}
-                                    {editPedidos  && <textarea name="descricao" value={pedidoUpdated.descricao} onChange={event => handleChangeModal(event)} maxLength={300}></textarea>}
+                                    {editPedidos  && <textarea name="descricao" 
+                                                                value={pedidoUpdated.descricao} 
+                                                                onChange={event => handleChangeModal(event)} 
+                                                                maxLength={300} 
+                                                                className={(errorsPedido.descricao) ? "error-active-text" : ""}></textarea>}
                                 </div>
-                                <p></p>
+                                {editPedidos && <p className="error-message">{errorsPedido.descricao}</p>}
                             </div>
 
                             <div className="pedido-field">
                                 <div>
                                     <p>Criado Em</p>
-                                    <p>{formatDatetime(pedidoModal.createdAt, 0)}</p>
+                                    <input value={pedidoModal.createdAt.slice(0, 10)} type="date" readOnly="true"></input>
                                 </div>
                             </div>
 
                             <div className="pedido-field">
                                 <div>
                                     <p name="prazo">Prazo</p>
-                                    <p contentEditable={editPedidos} suppressContentEditableWarning={true} name="prazo">{formatDatetime(pedidoModal.prazo, 0)}</p>
+                                    {!editPedidos && <input value={pedidoModal.prazo.slice(0, 10)} type="date" readOnly="true"></input>}
+                                    {editPedidos  && <input name="prazo"
+                                                            value={pedidoUpdated.prazo.slice(0, 10)}    
+                                                            onChange={event => handleChangeModal(event)} 
+                                                            type="date"
+                                                            className={(errorsPedido.prazo) ? "error-active-text" : ""}></input>}
                                 </div>
-                                <p></p>
+                                {editPedidos && <p className="error-message">{errorsPedido.prazo}</p>}
                             </div>
 
                             <div className="pedido-field">
                                 <div>
                                     <p name="material">Material</p>
                                     {!editPedidos && <p>{pedidoModal.material}</p>}
-                                    {editPedidos  && <textarea name="material" value={pedidoUpdated.material} onChange={event => handleChangeModal(event)} maxLength={30}></textarea>}
+                                    {editPedidos  && <textarea name="material" 
+                                                                value={pedidoUpdated.material} 
+                                                                onChange={event => handleChangeModal(event)} 
+                                                                maxLength={30}
+                                                                className={(errorsPedido.material) ? "error-active-text" : ""}></textarea>}
                                 </div>
-                                <p></p>
+                                {editPedidos && <p className="error-message">{errorsPedido.material}</p>}
                             </div>
 
                             <div className="pedido-field">
                                 <div>
                                     <p name="valor">Valor</p>
-                                    <p contentEditable={editPedidos} suppressContentEditableWarning={true} name="valor">{"R$" + pedidoModal.valor.toFixed(2)}</p>
+                                    {!editPedidos && <p>{"R$" + pedidoModal.valor.toFixed(2)}</p>}
+                                    {editPedidos  && <input name="valor" 
+                                                            value={(+pedidoUpdated.valor).toFixed(2)} 
+                                                            onChange={event => handleChangeModal(event)} 
+                                                            type="number"
+                                                            className={(errorsPedido.valor) ? "error-active-text" : ""}></input>}
                                 </div>
-                                <p></p>
+                                {editPedidos && <p className="error-message">{errorsPedido.valor}</p>}
                             </div>
 
                             <div className="pedido-field">
                                 <div>
                                     <p name="custoMaterial">Custo Material</p>
-                                    <p contentEditable={editPedidos} suppressContentEditableWarning={true} name="custoMaterial">{"R$" + pedidoModal.custoMaterial.toFixed(2)}</p>
+                                    {!editPedidos && <p>{"R$" + pedidoModal.custoMaterial.toFixed(2)}</p>}
+                                    {editPedidos  && <input name="custoMaterial" 
+                                                            value={(+pedidoUpdated.custoMaterial).toFixed(2)} 
+                                                            onChange={event => handleChangeModal(event)} 
+                                                            type="number"
+                                                            className={(errorsPedido.custoMaterial) ? "error-active-text" : ""}></input>}
                                 </div>
-                                <p></p>
+                                {editPedidos && <p className="error-message">{errorsPedido.custoMaterial}</p>}
                             </div>
 
                             <div className="pedido-field">
                                 <div>
                                     <p name="quantidade">Quantidade</p>
-                                    <p contentEditable={editPedidos} suppressContentEditableWarning={true} name="quantidade">{pedidoModal.quantidade}</p>
+                                    {!editPedidos && <p>{pedidoModal.quantidade}</p>}
+                                    {editPedidos  && <input name="quantidade" 
+                                                            value={(pedidoUpdated.quantidade)} 
+                                                            onChange={event => handleChangeModal(event)} 
+                                                            type="number"
+                                                            className={(errorsPedido.quantidade) ? "error-active-text" : ""}></input>}
                                 </div>
-                                <p></p>
+                                {editPedidos && <p className="error-message">{errorsPedido.quantidade}</p>}
                             </div>
 
                             <div className="pedido-field">
                                 <div>
                                     <p name="cliente">Cliente</p>
-                                    <p contentEditable={editPedidos} suppressContentEditableWarning={true} name="cliente">{pedidoModal.cliente}</p>
+                                    {!editPedidos && <p>{pedidoModal.cliente}</p>}
+                                    {editPedidos  && <textarea name="cliente" 
+                                                                value={pedidoUpdated.cliente} 
+                                                                onChange={event => handleChangeModal(event)} 
+                                                                maxLength={100}
+                                                                className={(errorsPedido.cliente) ? "error-active-text" : ""}></textarea>}
                                 </div>
-                                <p></p>
+                                {editPedidos && <p className="error-message">{errorsPedido.cliente}</p>}
                             </div>
                             
                             <div className="pedido-field">
                                 <div>
                                     <p name="numero">Número</p>
-                                    <p contentEditable={editPedidos} suppressContentEditableWarning={true} name="numero">{pedidoModal.numero}</p>
+                                    {!editPedidos && <p>{pedidoModal.numero}</p>}
+                                    {editPedidos  && <InputMask name="numero" 
+                                                                value={(pedidoUpdated.numero)} 
+                                                                onChange={event => handleChangeModal(event)} 
+                                                                type="tel" 
+                                                                mask="(__)_____-____" 
+                                                                replacement={{ _: /\d/ }}
+                                                                className={(errorsPedido.numero) ? "error-active-text" : ""}
+                                                                ></InputMask>}
                                 </div>
-                                <p></p>
+                                {editPedidos && <p className="error-message">{errorsPedido.numero}</p>}
                             </div>
                         </div>
                         }
@@ -389,7 +556,7 @@ function Pedidos() {
                                         replacement={{ _: /\d/ }}
                                         onChange={event => handleChangeAdicionarPedido(event)}
                                         value={dadosNovoPedido.numero}
-                                        placeholder="(12)93456-7890"
+                                        placeholder="(XX)9XXXX-XXXX"
                                     />
                                 </div>
                             </form>

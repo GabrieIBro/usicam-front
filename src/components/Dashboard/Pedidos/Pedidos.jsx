@@ -31,6 +31,8 @@ function Pedidos() {
         setOpenModal(prev => !prev);
         setModalOpenMode(event.target.name);
         setErrorsPedido({});
+        setDadosNovoPedido({});
+        setPedidoUpdated(pedidoModal);
 
         if(openModal === false) {
             setEditPedidos(false);
@@ -142,13 +144,15 @@ function Pedidos() {
     function handleErrorsPedido(event) {
         const {name, value} = event.target;
 
+        console.log(name);
+
         if(name === "nome") {
 
             if(!value) {
                 setErrorsPedido(prev => ({...prev, [name]:"Este campo é obrigatório."}));
             }
             else if(value.length > 64) {
-                setErrorsPedido(prev => ({...prev, [name]:"O campo deve conter no máximo 300 caracteres."}));
+                setErrorsPedido(prev => ({...prev, [name]:"O campo deve conter no máximo 64 caracteres."}));
             }
             else {
                 setErrorsPedido(prev => ({...prev, [name]:""}));
@@ -195,13 +199,10 @@ function Pedidos() {
                 setErrorsPedido(prev => ({...prev, [name]:""}));
             }
         }
-        else if(name === "valor") {
+        else if(name === "valor" || value[0] == 0) {
 
             if(!value) {
                 setErrorsPedido(prev => ({...prev, [name]:"Este campo é obrigatório."}));
-            }
-            else if(isNaN(Number(value))) {
-                setErrorsPedido(prev => ({...prev, [name]:"O campo deve possuir apenas números."}));
             }
             else {
                 setErrorsPedido(prev => ({...prev, [name]:""}));
@@ -209,23 +210,17 @@ function Pedidos() {
         }
         else if(name === "custoMaterial") {
 
-            if(!value) {
+            if(!value || value[0] == 0) {
                 setErrorsPedido(prev => ({...prev, [name]:"Este campo é obrigatório."}));
-            }
-            else if(isNaN(Number(value))) {
-                setErrorsPedido(prev => ({...prev, [name]:"O campo deve possuir apenas números."}));
             }
             else {
                 setErrorsPedido(prev => ({...prev, [name]:""}));
             }
         }
         else if(name === "quantidade") {
-
-            if(!value) {
+            console.log(value)
+            if(!value || value[0] == 0) {
                 setErrorsPedido(prev => ({...prev, [name]:"Este campo é obrigatório."}));
-            }
-            else if(isNaN(Number(value))) {
-                setErrorsPedido(prev => ({...prev, [name]:"O campo deve possuir apenas números."}));
             }
             else {
                 setErrorsPedido(prev => ({...prev, [name]:""}));
@@ -259,7 +254,16 @@ function Pedidos() {
     }
 
     function handleChangeModal(event) {
-        const {name, value} = event.target;
+        let {name, value} = event.target;
+        console.log(event.key)
+        if(name === "valor" || name === "custoMaterial" || name === "quantidade") {
+            let tempVal = value.split("");
+            tempVal = tempVal.filter(char => "0123456789".includes(char));
+            console.log(tempVal)
+            tempVal = tempVal.join("");
+            value = Number(tempVal);
+        }
+
         setPedidoUpdated(prev => ({...prev, [name]:value }));
         
         handleErrorsPedido(event);
@@ -273,16 +277,23 @@ function Pedidos() {
         }
     }
 
+    const [updatePedidoLoading, setUpdatePedidoLoading] = useState(false);
+
     async function handleClickUpdatePedido() {
         const pedido = {...pedidoUpdated};
         delete pedido["id"];
-
         const id = Number(pedidoUpdated["id"]);
+        setUpdatePedidoLoading(true);
 
         await axiosInstance.patch("/alterarPedido", {id:id, data:{...pedido}})
         .then(() => {
             setRefresh(prev => prev + 1);
-            setEditPedidos(false);
+            setPedidoModal(prev => ({...prev, ...pedidoUpdated}));
+
+            setTimeout(() => {
+                setEditPedidos(false);
+                setUpdatePedidoLoading(false);
+            }, 500)
         })
         .catch(() => {
 
@@ -303,6 +314,8 @@ function Pedidos() {
 
     function handleChangeAdicionarPedido(event) {
         let {name, value} = event.target;
+
+        handleErrorsPedido(event);
 
         if(["valor", "custoMaterial", "quantidade"].includes(name)) {
             value = value.split("");
@@ -333,7 +346,7 @@ function Pedidos() {
                     <p>{(pedido.nome.length > 20) ? pedido.nome.slice(0 ,21) + '...' : pedido.nome}</p>
                     <p>{(pedido.descricao.length > 35) ? pedido.descricao.slice(0 ,36) + '...' : pedido.descricao}</p>
                     <p>{(pedido.material.length > 20) ? pedido.material.slice(0 ,21) + '...' : pedido.material}</p>
-                    <p>{"R$" + pedido.valor.toFixed(2)}</p>
+                    <p>{"R$" + pedido.valor}</p>
                     <p>{pedido.quantidade}</p>
                     <p>{(pedido.cliente.length > 20) ? pedido.cliente.slice(0 ,21) + '...' : pedido.cliente}</p>
                     <p>{formatDatetime(pedido.prazo, 0)}</p>
@@ -352,7 +365,15 @@ function Pedidos() {
                         <img src={images.pencil} alt="Edit icon" />
                     </button>}
 
-                    {editPedidos && <button className="save-button" onClick={handleClickUpdatePedido}>Salvar</button>}
+                    {editPedidos && 
+                    <button className={(updatePedidoLoading) ? "save-button-loading" : "save-button"} 
+                            onClick={handleClickUpdatePedido}
+                            disabled={updatePedidoLoading}
+                    >
+                        {!updatePedidoLoading && "Salvar"}
+                        {updatePedidoLoading && <img src={images.refresh}></img>}
+                    </button>}
+                    
                     {editPedidos && <button className={(pedidoModal.finalizado) ? "finish-button-done": "finish-button"} onClick={handleClickFinalizado}>Finalizado</button>}
                     
                     {(modalOpenMode === "adicionar") && <button className="adicionar-button">Adicionar</button>}
@@ -376,7 +397,7 @@ function Pedidos() {
                                                                 value={pedidoUpdated.nome} 
                                                                 onChange={event => handleChangeModal(event)} 
                                                                 maxLength={64}
-                                                                className={(errorsPedido.nome) ? "error-active-text" : ""}></textarea>}
+                                                                className={(errorsPedido.nome) ? "error-active-field" : ""}></textarea>}
                                 </div>
                                 {editPedidos && <p className="error-message">{errorsPedido.nome}</p>}
                             </div>
@@ -389,7 +410,7 @@ function Pedidos() {
                                                                 value={pedidoUpdated.descricao} 
                                                                 onChange={event => handleChangeModal(event)} 
                                                                 maxLength={300} 
-                                                                className={(errorsPedido.descricao) ? "error-active-text" : ""}></textarea>}
+                                                                className={(errorsPedido.descricao) ? "error-active-field" : ""}></textarea>}
                                 </div>
                                 {editPedidos && <p className="error-message">{errorsPedido.descricao}</p>}
                             </div>
@@ -409,7 +430,7 @@ function Pedidos() {
                                                             value={pedidoUpdated.prazo.slice(0, 10)}    
                                                             onChange={event => handleChangeModal(event)} 
                                                             type="date"
-                                                            className={(errorsPedido.prazo) ? "error-active-text" : ""}></input>}
+                                                            className={(errorsPedido.prazo) ? "error-active-field" : ""}></input>}
                                 </div>
                                 {editPedidos && <p className="error-message">{errorsPedido.prazo}</p>}
                             </div>
@@ -422,7 +443,7 @@ function Pedidos() {
                                                                 value={pedidoUpdated.material} 
                                                                 onChange={event => handleChangeModal(event)} 
                                                                 maxLength={30}
-                                                                className={(errorsPedido.material) ? "error-active-text" : ""}></textarea>}
+                                                                className={(errorsPedido.material) ? "error-active-field" : ""}></textarea>}
                                 </div>
                                 {editPedidos && <p className="error-message">{errorsPedido.material}</p>}
                             </div>
@@ -430,12 +451,13 @@ function Pedidos() {
                             <div className="pedido-field">
                                 <div>
                                     <p name="valor">Valor</p>
-                                    {!editPedidos && <p>{"R$" + pedidoModal.valor.toFixed(2)}</p>}
+                                    {!editPedidos && <p>{"R$" + pedidoModal.valor}</p>}
                                     {editPedidos  && <input name="valor" 
-                                                            value={(+pedidoUpdated.valor).toFixed(2)} 
+                                                            value={pedidoUpdated.valor} 
                                                             onChange={event => handleChangeModal(event)} 
-                                                            type="number"
-                                                            className={(errorsPedido.valor) ? "error-active-text" : ""}></input>}
+                                                            type="text"
+                                                            inputMode="numeric"
+                                                            className={(errorsPedido.valor) ? "error-active-field" : ""}></input>}
                                 </div>
                                 {editPedidos && <p className="error-message">{errorsPedido.valor}</p>}
                             </div>
@@ -443,12 +465,13 @@ function Pedidos() {
                             <div className="pedido-field">
                                 <div>
                                     <p name="custoMaterial">Custo Material</p>
-                                    {!editPedidos && <p>{"R$" + pedidoModal.custoMaterial.toFixed(2)}</p>}
+                                    {!editPedidos && <p>{"R$" + pedidoModal.custoMaterial}</p>}
                                     {editPedidos  && <input name="custoMaterial" 
-                                                            value={(+pedidoUpdated.custoMaterial).toFixed(2)} 
+                                                            value={pedidoUpdated.custoMaterial} 
                                                             onChange={event => handleChangeModal(event)} 
-                                                            type="number"
-                                                            className={(errorsPedido.custoMaterial) ? "error-active-text" : ""}></input>}
+                                                            type="text"
+                                                            inputMode="numeric"
+                                                            className={(errorsPedido.custoMaterial) ? "error-active-field" : ""}></input>}
                                 </div>
                                 {editPedidos && <p className="error-message">{errorsPedido.custoMaterial}</p>}
                             </div>
@@ -458,10 +481,11 @@ function Pedidos() {
                                     <p name="quantidade">Quantidade</p>
                                     {!editPedidos && <p>{pedidoModal.quantidade}</p>}
                                     {editPedidos  && <input name="quantidade" 
-                                                            value={(pedidoUpdated.quantidade)} 
+                                                            value={pedidoUpdated.quantidade} 
                                                             onChange={event => handleChangeModal(event)} 
-                                                            type="number"
-                                                            className={(errorsPedido.quantidade) ? "error-active-text" : ""}></input>}
+                                                            type="text"
+                                                            inputMode="numeric"
+                                                            className={(errorsPedido.quantidade) ? "error-active-field" : ""}></input>}
                                 </div>
                                 {editPedidos && <p className="error-message">{errorsPedido.quantidade}</p>}
                             </div>
@@ -474,7 +498,7 @@ function Pedidos() {
                                                                 value={pedidoUpdated.cliente} 
                                                                 onChange={event => handleChangeModal(event)} 
                                                                 maxLength={100}
-                                                                className={(errorsPedido.cliente) ? "error-active-text" : ""}></textarea>}
+                                                                className={(errorsPedido.cliente) ? "error-active-field" : ""}></textarea>}
                                 </div>
                                 {editPedidos && <p className="error-message">{errorsPedido.cliente}</p>}
                             </div>
@@ -489,7 +513,7 @@ function Pedidos() {
                                                                 type="tel" 
                                                                 mask="(__)_____-____" 
                                                                 replacement={{ _: /\d/ }}
-                                                                className={(errorsPedido.numero) ? "error-active-text" : ""}
+                                                                className={(errorsPedido.numero) ? "error-active-field" : ""}
                                                                 ></InputMask>}
                                 </div>
                                 {editPedidos && <p className="error-message">{errorsPedido.numero}</p>}
@@ -503,49 +527,70 @@ function Pedidos() {
                                     <label htmlFor="nome">Nome</label>
                                     <input onChange={event => handleChangeAdicionarPedido(event)}
                                             value={dadosNovoPedido.nome}
-                                            type="text" name="nome"/>
+                                            type="text" name="nome"
+                                            maxLength={64}
+                                            className={(errorsPedido.nome) ? "error-active-field" : ""}/>
+                                    {errorsPedido.nome && <p className="error-message">{errorsPedido.nome}</p>}
                                 </div>
+
                                 <div>
                                     <label htmlFor="descricao">Descrição</label>
                                     <input onChange={event => handleChangeAdicionarPedido(event)}
                                             value={dadosNovoPedido.descricao}
-                                            type="text" name="descricao"/>
+                                            type="text" name="descricao"
+                                            maxLength={300}
+                                            className={(errorsPedido.descricao) ? "error-active-field" : ""}/>
+                                    {errorsPedido.descricao && <p className="error-message">{errorsPedido.descricao}</p>}
                                 </div>
                                 <div>
                                     <label htmlFor="prazo">Prazo</label>
                                     <input onChange={event => handleChangeAdicionarPedido(event)}
                                             value={dadosNovoPedido.prazo}
-                                            type="date" name="prazo"/>
+                                            type="date" name="prazo"
+                                            className={(errorsPedido.prazo) ? "error-active-field" : ""}/>
+                                    {errorsPedido.prazo && <p className="error-message">{errorsPedido.prazo}</p>}
                                 </div>
                                 <div>
                                     <label htmlFor="material">Material</label>
                                     <input onChange={event => handleChangeAdicionarPedido(event)}
                                             value={dadosNovoPedido.material}
-                                            type="text" name="material"/>
+                                            type="text" name="material"
+                                            maxLength={30}
+                                            className={(errorsPedido.material) ? "error-active-field" : ""}/>
+                                    {errorsPedido.material && <p className="error-message">{errorsPedido.material}</p>}
                                 </div>
                                 <div>
                                     <label htmlFor="valor">Valor</label>
                                     <input onChange={event => handleChangeAdicionarPedido(event)}
                                             value={dadosNovoPedido.valor}
-                                            type="text" name="valor"/>
+                                            type="text" name="valor"
+                                            className={(errorsPedido.valor) ? "error-active-field" : ""}/>
+                                    {errorsPedido.valor && <p className="error-message">{errorsPedido.valor}</p>}
                                 </div>
                                 <div>
                                     <label htmlFor="custoMaterial">Custo Material</label>
                                     <input onChange={event => handleChangeAdicionarPedido(event)}
                                             value={dadosNovoPedido.custoMaterial}
-                                            type="text" name="custoMaterial"/>
+                                            type="text" name="custoMaterial"
+                                            className={(errorsPedido.custoMaterial) ? "error-active-field" : ""}/>
+                                    {errorsPedido.custoMaterial && <p className="error-message">{errorsPedido.custoMaterial}</p>}
                                 </div>
                                 <div>
                                     <label htmlFor="quantidade">Quantidade</label>
                                     <input onChange={event => handleChangeAdicionarPedido(event)}
                                             value={dadosNovoPedido.quantidade}
-                                            type="text" name="quantidade"/>
+                                            type="text" name="quantidade"
+                                            className={(errorsPedido.quantidade) ? "error-active-field" : ""}/>
+                                    {errorsPedido.quantidade && <p className="error-message">{errorsPedido.quantidade}</p>}
                                 </div>
                                 <div>
                                     <label htmlFor="cliente">Cliente</label>
                                     <input onChange={event => handleChangeAdicionarPedido(event)}
                                             value={dadosNovoPedido.cliente}
-                                            type="text" name="cliente"/>
+                                            type="text" name="cliente"
+                                            maxLength={100}
+                                            className={(errorsPedido.cliente) ? "error-active-field" : ""}/>
+                                    {errorsPedido.cliente && <p className="error-message">{errorsPedido.cliente}</p>}
                                 </div>
                                 <div>
                                     <label htmlFor="nome">Número</label>
@@ -557,7 +602,9 @@ function Pedidos() {
                                         onChange={event => handleChangeAdicionarPedido(event)}
                                         value={dadosNovoPedido.numero}
                                         placeholder="(XX)9XXXX-XXXX"
-                                    />
+                                        maxLength={14}
+                                        className={(errorsPedido.numero) ? "error-active-field" : ""}/>
+                                    {errorsPedido.numero && <p className="error-message">{errorsPedido.numero}</p>}
                                 </div>
                             </form>
                         }
@@ -591,7 +638,7 @@ function Pedidos() {
             <div className="pedidos-container__content" ref={pedidosContentRef}>
                 <div className="pedidos-container__content__header"
                     style={(windowWidth < 1920) ? {width: scrollWidth + "px"} : {width: "100%"}}
->
+                >
                     <p>ID</p>
                     <p>Nome</p>
                     <p>Descrição</p>

@@ -77,10 +77,21 @@
                 }
             }
 
-            .save-button {
+            .save-button, .save-button-loading {
                 right: 10px;
                 width: 100px;
                 animation: saveButtonIn 100ms linear;
+            }
+
+            .save-button-loading {
+                @include flex(0,0);
+
+                img {
+                    width: 25px;
+                    height: 25px;
+                    filter: brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(0%) hue-rotate(288deg) brightness(102%) contrast(102%);
+                    animation: rotate 1000ms infinite;
+                }
             }
 
             .finish-button, .finish-button-done {
@@ -120,7 +131,7 @@
                     div {
                         display: flex;
 
-                        .error-active-text {
+                        .error-active-field {
                             border: 1px solid rgb(204, 38, 38);
                             transition: all ease-in-out 125ms;
                             animation: errorFlash linear 800ms;
@@ -230,6 +241,20 @@
 
                     input[type=number] {
                         appearance: textfield;
+                    }
+
+                    .error-active-field {
+                        border: 1px solid rgb(204, 38, 38);
+                        transition: all ease-in-out 125ms;
+                        animation: errorFlash linear 800ms;
+
+                        &:focus {
+                            border: 1px solid rgb(204, 38, 38);
+                        }
+                    }
+
+                    .error-message {
+                        color: rgb(204, 38, 38)
                     }
                 }
             }
@@ -523,5 +548,14 @@
 
     100% {
         opacity: 25%;
+    }
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(-360deg);
     }
 }

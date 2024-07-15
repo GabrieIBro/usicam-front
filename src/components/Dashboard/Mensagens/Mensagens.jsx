@@ -153,11 +153,11 @@ function Mensagens() {
                 <div className="mensagens-controls__remove-resync">
                     <input type="checkbox" name="selected" onChange={event => handleCheckAll(event)} checked={checkAllState}/>
                     <button onClick={handleDeleteMessage}>
-                        <img src={images.trash} alt="" />
+                        <img src={images.trash} alt="Trash icon" />
                     </button>
 
                     <button onClick={handleRefreshButton} className="refresh-button">
-                        <img src={images.refresh} alt="" />
+                        <img src={images.refresh} alt="Refresh icon" />
                     </button>
                 </div>
                 
@@ -180,7 +180,7 @@ function Mensagens() {
             <div className="modal-container" style={(modalIsOpen) ? {display: "flex"} : {display: "none"}} onClick={closeModal}>
                 <div className="modal" onClick={event => event.stopPropagation()}>
                     <button className="seen-button" onClick={handleSeenButton}>
-                        <img src={(messageModal.visto) ? images.eyeClosed : images.eye} alt="" />
+                        <img src={(messageModal.visto) ? images.eyeClosed : images.eye} alt="Eye logo" />
                     </button>
                     <button className="close-button" onClick={closeModal}></button>
                     <div className="modal__message-content">

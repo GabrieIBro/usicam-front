@@ -412,7 +412,7 @@ function Usuarios() {
                 <div className={(removerUsuarioOpen) ? "remover-usuario__content-open" : "remover-usuario__content"} onClick={event => event.stopPropagation()}>
                     <div className="search-container">
                         <button className="remove-button" name="remover-user" onClick={event => handleModal(event)}> 
-                            <img src={images.trash} alt="" />
+                            <img src={images.trash} alt="Trash logo" />
                         </button>
                         <input type="text" name="search" placeholder="Buscar Usuário" value={searchTerm} onChange={(event) => handleChangeSearchInput(event)}/>
                     </div>

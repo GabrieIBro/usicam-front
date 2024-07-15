@@ -25,7 +25,9 @@ import eyeClosed from "./svg/eye-closed.svg";
 import refresh from "./svg/refresh.svg";
 import check from "./svg/check.svg";
 import pencil from "./svg/pencil.svg"
-
+import x from "./svg/x.svg";
+import sun from "./svg/sun.svg"
+import moon from "./svg/moon.svg"
 const images = {
     logoUsicam,
     logoFacebook,
@@ -47,7 +49,10 @@ const images = {
     eyeClosed,
     refresh,
     check,
-    pencil
+    pencil,
+    x,
+    sun,
+    moon
 }
 
 export default images;

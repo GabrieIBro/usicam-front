@@ -1,0 +1,77 @@
+@import '../../../scss/variables';
+@import '../../../scss/functions';
+@import '../../../scss/mixins';
+
+.container {
+    @include flex(0, 0);
+    justify-content: start;
+    position: absolute;
+    z-index: 9999;
+    min-height: 60px;
+    max-height: 120px;
+    width: 90%;
+    max-width: 600px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 2px 2px 15px rgb(175, 175, 175);
+    border-radius: 200px;
+    margin: 15px 0;
+    top: 0px;
+    animation: popin 300ms linear;
+    overflow: hidden;
+
+    &__image-container-ok, &__image-container-notok {
+        @include flex(0, 0);
+        height: 100%;
+        min-height: 100%;
+        width: 75px; 
+        min-width: 75px;
+        border-radius: 200px 0px 0px 200px;
+        position: absolute;
+
+        img {
+            height: 50px;
+            width: 50px;
+            filter: brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(0%) hue-rotate(288deg) brightness(102%) contrast(102%);
+            margin-left: 5px;
+        }
+    }
+
+    &__image-container-ok {
+        background-color:rgb(99, 199, 99);
+    }
+    &__image-container-notok {
+        background-color:rgb(218, 89, 89);
+    }
+
+    &__content {
+        width: 100%;
+        min-height: 100%;
+        padding: 10px;
+        margin-left: 75px;
+
+        p {
+            font-size: 17px;
+            border-radius: 0px 200px 200px 0px;
+            overflow: hidden;
+            max-height: 100px;
+        }
+    }
+}
+
+@keyframes popin {
+    0% {
+        top: -125px;
+        transform: scale(0%);
+        opacity: 0%;
+    }
+
+    90% {
+        transform: scale(90%);
+        opacity: 25%;
+    }
+    100% {
+        top: 0px;
+        transform: scale(100%);
+        opacity: 100%;
+    }
+}

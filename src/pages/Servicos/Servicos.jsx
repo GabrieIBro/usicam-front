@@ -20,7 +20,7 @@ function Servicos() {
 			<div className="gallery">{
 				images.map((image, index) => (
 						<div key={index} className="gallery__image-container" style={{backgroundImage: `url(http://localhost:8080/api/servicos/${image.filename})`}}>
-							<img src={"http://localhost:8080/api/servicos/" + image.filename} alt="" draggable="false" loading="lazy"/>
+							<img src={"http://localhost:8080/api/servicos/" + image.filename} alt="Service image" draggable="false" loading="lazy"/>
 						</div>
 				))
 			}</div>

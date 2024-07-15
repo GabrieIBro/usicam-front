@@ -107,12 +107,22 @@
                     background-color: #979797;                }
             }
             
-            .adicionar-button {
+            .adicionar-button, .adicionar-button-loading {
                 left: none;
                 right: 10px;
                 width: 120px;
             }
 
+            .adicionar-button-loading {
+                @include flex(0,0);
+
+                img {
+                    width: 25px;
+                    height: 25px;
+                    filter: brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(0%) hue-rotate(288deg) brightness(102%) contrast(102%);
+                    animation: rotate 1000ms infinite;
+                }
+            }
             & > div {
                 overflow-y: scroll;
                 height: 100%;

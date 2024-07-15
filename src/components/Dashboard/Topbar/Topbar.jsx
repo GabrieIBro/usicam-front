@@ -5,6 +5,11 @@ import axiosInstance from "../../../../config/axios";
 
 function Topbar(props) {
     const [fotoPerfil, setFotoPerfil] = useState();
+    const [darkMode, setDarkMode] = useState(false);
+
+    function handleClickDarkMode() {
+        setDarkMode(prev => !prev);
+    }
 
     useEffect(() => {
         axiosInstance.get("/fotoPerfil")
@@ -15,7 +20,13 @@ function Topbar(props) {
 
     return(
         <div className="topbar">
-            <input type="checkbox" className="mode-toggle"/>
+
+            <div className={(darkMode) ? "mode-toggle-dark" : "mode-toggle-light"} onClick={handleClickDarkMode}>
+                <div>
+                    <img src={images.moon} draggable="false"></img>
+                    <img src={images.sun} draggable="false"></img>
+                </div>
+            </div>
 
             <div className="topbar__user">
                 <div className="topbar__user__image-container">

@@ -31,7 +31,7 @@ function Sidebar() {
                         onClick={() => navigate('/dashboard/inicio')}
                         className={(location.pathname === "/dashboard/inicio") ? "active-button" : ""}
                 >
-                    <img src={images.homeLogo} alt="" className="home-logo"/>
+                    <img src={images.homeLogo} alt="Home logo" className="home-logo"/>
                     <p>Início</p>
                 </button>
 
@@ -39,7 +39,7 @@ function Sidebar() {
                         onClick={() => navigate('/dashboard/mensagens')}
                         className={(location.pathname === "/dashboard/mensagens") ? "active-button" : ""}
                 >
-                    <img src={images.inboxLogo} alt="" />
+                    <img src={images.inboxLogo} alt="Inbox logo" />
                     <p>Mensagens</p>
                 </button>
 
@@ -48,7 +48,7 @@ function Sidebar() {
                         className={(location.pathname === "/dashboard/pedidos") ? "active-button" : ""}
 
                 >
-                    <img src={images.pedidosLogo} alt="" />
+                    <img src={images.pedidosLogo} alt="Pedidos logo" />
                     <p>Pedidos</p>
                 </button>
 
@@ -57,7 +57,7 @@ function Sidebar() {
                         className={(location.pathname === "/dashboard/usuarios") ? "active-button" : ""}
 
                 >
-                    <img src={images.usuariosLogo} alt="" className="usuario-logo"/>
+                    <img src={images.usuariosLogo} alt="User logo" className="usuario-logo"/>
                     <p>Usuários</p>
                 </button>
                 
@@ -66,12 +66,12 @@ function Sidebar() {
                         className={(location.pathname === "/dashboard/configuracoes") ? "active-button" : ""}
 
                 >
-                    <img src={images.configLogo} alt="" />
+                    <img src={images.configLogo} alt="Config logo" />
                     <p>Configurações</p>
                 </button>
 
                 <button className="sair" onClick={logout}>
-                    <img src={images.signOutLogo} alt="" />
+                    <img src={images.signOutLogo} alt="Sign out logo" />
                     <p>Sair</p>
                 </button>
             </div>

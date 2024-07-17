@@ -3,9 +3,11 @@ import axiosInstance from "../../../../config/axios";
 import { formatDatetime } from "../../../utils/helpers";
 import "./mensagens.scss"
 import images from "../../../assets/images/images";
+import Popup from "../Popup/Popup";
 
 function Mensagens() {
     const [messages, setMessages] = useState([]);
+    const [noMessage, setNoMessage] = useState(false);
     const [filterValues, setFilterValues] = useState({recente:1});
     const [checkState, setCheckState] = useState({});
     const [deleteCount, setDeleteCount] = useState(0);
@@ -18,7 +20,17 @@ function Mensagens() {
         async function fetchData() {
             axiosInstance.post('/mensagens', filterValues)
             .then(res => {
-                setMessages(res.data);
+                if(res.data.length === 0) {
+                    setNoMessage(true);
+                    setMessages(res.data);
+                }
+                else {
+                    setMessages(res.data);
+                    setNoMessage(false);
+                }
+                console.log(res.data);
+
+                setCheckState({});
 
                 res.data.map(message => {
                     setCheckState(prev => ({...prev, [message.id]:false}));
@@ -29,9 +41,38 @@ function Mensagens() {
         fetchData();
     }, [filterValues, deleteCount, messageModal, refresh])
 
+    const [popupData, setPopupData] = useState({});
+    const [timeouts, setTimeouts] = useState([]);
+
+    function handlePopup(success, message) {
+        if(timeouts.length > 0) {
+            setPopupData({});
+
+            timeouts.forEach(timer => {
+                clearTimeout(timer);
+            })
+            setTimeouts([]);
+        }
+        setTimeout(() => {
+            setPopupData({success, message});
+            
+            const timeout = setTimeout(() => {
+                setPopupData({});
+            }, 2500)
+    
+            setTimeouts(prev => ([...prev, timeout]));
+        }, 50);
+    }
+
     function handleFilterChange(event) {
         let {name, value} = event.target;
+        if(value === "") {
+            const tempObj = {...filterValues};
+            delete tempObj[name];
 
+            setFilterValues(tempObj);
+            return;
+        }
         setFilterValues(prev => ({...prev, [name]:(name === 'recente') ? +value : value}));
     }
     
@@ -49,7 +90,6 @@ function Mensagens() {
 
     useEffect(() => {
         const values = Object.values(checkState);
-        console.log(values);
         if(values.includes(false)) {
             setCheckAllState(false);
         }
@@ -72,6 +112,10 @@ function Mensagens() {
         axiosInstance.delete('/removerMensagens', {data:{ids:deleteIds}})
         .then(() => {
             setDeleteCount(prev => prev + 1);
+            handlePopup(true, "Mensagem deletada com sucesso!");
+        })
+        .catch(err => {
+            handlePopup(false, err.response.data);
         })
     }
 
@@ -114,6 +158,8 @@ function Mensagens() {
 
     function handleRefreshButton() {
         setRefresh(prev => !prev);
+        console.log(checkState);
+        console.log(messages);
     }
 
     function RenderMessages() {
@@ -148,7 +194,9 @@ function Mensagens() {
 
 
     return(
-        <div className="content-wrapper">
+        <div className="content-wrapper-mensagens">
+            {popupData?.message && <Popup success={popupData.success} message={popupData.message}/>}
+
             <div className="mensagens-controls">
                 <div className="mensagens-controls__remove-resync">
                     <input type="checkbox" name="selected" onChange={event => handleCheckAll(event)} checked={checkAllState}/>
@@ -175,6 +223,11 @@ function Mensagens() {
                 </div>
             </div>
             <div className="mensagens-container">
+                {messages.length === 0 && 
+                <div className="loading">
+                    {noMessage === false && messages.length === 0 && <p>Carregando...</p>}
+                    {noMessage === true && <p>Caixa de mensagens vazia</p>}
+                </div>}
                 <RenderMessages/>
             </div>
             <div className="modal-container" style={(modalIsOpen) ? {display: "flex"} : {display: "none"}} onClick={closeModal}>

@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import Overview from "./components/Dashboard/Overview/Overview";
 import Mensagens from "./components/Dashboard/Mensagens/Mensagens";
 import Pedidos from "./components/Dashboard/Pedidos/Pedidos";
+import Publico from "./components/Dashboard/Publico/Publico";
 import Usuarios from "./components/Dashboard/Usuarios/Usuarios";
 import Configuracoes from "./components/Dashboard/Configuracoes/Configuracoes";
 
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
 			{
 				path:"/dashboard/pedidos",
 				element: <Pedidos/>
+			},
+			{
+				path:"/dashboard/publico",
+				element: <Publico/>
 			},
 			{
 				path:"/dashboard/usuarios",

@@ -11,6 +11,7 @@ function Dashboard() {
     const location = useLocation();
     const [load, setLoad] = useState(false);
     const [user, setUser] = useState("");
+    const [mode, setMode] = useState(localStorage.getItem("mode") || "light");
 
     useEffect( () => {
         async function checkLogin() {
@@ -39,8 +40,22 @@ function Dashboard() {
         }
     }, [])
 
+    useEffect(() => {
+        function modeWatch(e) {
+            if(e.key === "mode") {
+                setMode(localStorage.getItem("mode"));
+            }
+        }
+
+        window.addEventListener("storage", modeWatch);
+
+        return () => {
+            window.removeEventListener("storage", modeWatch)
+        }
+    }, [])
+
     return(
-        <div className="dashboard" style={(!load) ? {display: "none"} : {}}>
+        <div className={(mode === "light") ? "dashboard" : "dashboard-dark"} style={(!load) ? {display: "none"} : {}}>
 
             <Sidebar/>
 

@@ -24,10 +24,12 @@ import eye from "./svg/eye.svg";
 import eyeClosed from "./svg/eye-closed.svg";
 import refresh from "./svg/refresh.svg";
 import check from "./svg/check.svg";
-import pencil from "./svg/pencil.svg"
+import pencil from "./svg/pencil.svg";
 import x from "./svg/x.svg";
-import sun from "./svg/sun.svg"
-import moon from "./svg/moon.svg"
+import sun from "./svg/sun.svg";
+import moon from "./svg/moon.svg";
+import globe from "./svg/globe.svg";
+
 const images = {
     logoUsicam,
     logoFacebook,
@@ -52,7 +54,8 @@ const images = {
     pencil,
     x,
     sun,
-    moon
+    moon,
+    globe
 }
 
 export default images;

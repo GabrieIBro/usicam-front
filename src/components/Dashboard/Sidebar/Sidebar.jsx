@@ -52,6 +52,15 @@ function Sidebar() {
                     <p>Pedidos</p>
                 </button>
 
+                <button name="publico"
+                        onClick={() => navigate('/dashboard/publico')}
+                        className={(location.pathname === "/dashboard/publico") ? "active-button" : ""}
+
+                >
+                    <img src={images.globe} alt="Público logo" />
+                    <p>Público</p>
+                </button>
+
                 <button name="usuarios"
                         onClick={() => navigate('/dashboard/usuarios')}
                         className={(location.pathname === "/dashboard/usuarios") ? "active-button" : ""}

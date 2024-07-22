@@ -3,6 +3,9 @@ import "./usuarios.scss"
 import axiosInstance from "../../../../config/axios";
 import images from "../../../assets/images/images";
 
+import ModalSenha from "../ModalSenha/ModalSenha";
+import Popup from "../Popup/Popup";
+
 function Usuarios() {
     const [adicionarUsuarioOpen, setAdicionarUsuarioOpen] = useState(false);
     const [removerUsuarioOpen, setRemoverUsuarioOpen] = useState(false);
@@ -54,53 +57,10 @@ function Usuarios() {
     } 
 
     let myRef = useRef();
-    const [usuarioOption, setUsuarioOption] = useState('');
     const [adicionarUsuarioValues, setAdicionarUsuarioValues] = useState({admin:0});
     const [alterarSenhaValues, setAlterarSenhaValues] = useState({});
     const [adicionarUsuarioErrors, setAdicionarUsuarioErrors] = useState({fullname: null, username: null, senhaUser: null});
     const [alterarSenhaErrors, setAlterarSenhaErrors] = useState({username: null, novaSenha: null});
-    const [adminPassword, setAdminPassword] = useState('');
-
-    function handleModal(event) {
-        const {name} = event.currentTarget;
-
-        const adicionarUserErrorValues = Object.values(adicionarUsuarioErrors).filter(error => error !== "").length;
-        const alterarSenhaErrorValues = Object.values(alterarSenhaErrors).filter(error => error !== "").length;
-        
-        const adicionarUser = Object.values(adicionarUsuarioValues).filter(value => value !== "").length;
-        const alterarSenha = Object.values(alterarSenhaValues).filter(value => value !== "").length;
-        console.log(alterarSenha)
-
-
-        if(name === "adicionar-user") {
-            if(adicionarUserErrorValues || adicionarUser === 1 && !displayModal) {
-                event.preventDefault();
-                return;
-            }
-        }
-        if(name === "alterar-senha") {
-            if(alterarSenhaErrorValues || alterarSenha === 0 && !displayModal) {
-                event.preventDefault();
-                return;
-            }
-        }
-
-        if(name === "remover-user") {
-            const usersToRemoveValues = Object.values(usersToRemoveChecked);
-            if(!usersToRemoveValues.includes(true)) {
-                event.preventDefault();
-                return;
-            }
-        }
-
-        event.preventDefault();
-        myRef.current.scrollIntoView({behavior: 'instant', block: 'end'});
-        setUsuarioOption(name);
-        setDisplayModal(prev => !prev);
-        setAdminPassword('');
-        setErrorSubmitModal(false);
-        setSuccessSubmitModal(false);
-    }
 
     function handleChangeAdicionarUsuario(event) {
         const {name, value, checked} = event.target;
@@ -109,6 +69,13 @@ function Usuarios() {
 
         setAdicionarUsuarioValues(prev => ({...prev, [name]: (name === 'admin') ? checkedInt : value}));
     }
+
+    function handleChangeAlterarSenha(event) {
+        const {name, value} = event.target;
+
+        setAlterarSenhaValues(prev => ({...prev, [name]: value}));
+    }
+
 
     function handleErrorsAdicionarUsuario(event) {
         const {name, value} = event.target;
@@ -211,89 +178,143 @@ function Usuarios() {
         }
     }
 
-    function handleChangeAlterarSenha(event) {
-        const {name, value} = event.target;
+    const [requestData, setRequestData] = useState({});
+    const [modalParams, setModalParams] = useState({});
+    const [requirePassword, setRequirePassword] = useState(+localStorage.getItem("requirePassword") <= Date.now());
 
-        setAlterarSenhaValues(prev => ({...prev, [name]: value}));
+    useEffect(() => {
+        console.log("Require password: " + localStorage.getItem("requirePassword") <= Date.now());
+        setRequirePassword(+localStorage.getItem("requirePassword") <= Date.now());
+
+    }, [adicionarUsuarioValues, usersToRemoveChecked, alterarSenhaValues, refresh]);
+
+    function clearValues() {
+        const tempAlterarSenha = {...alterarSenhaValues};
+        tempAlterarSenha.novaSenha = "";
+        tempAlterarSenha.username = "";
+
+        const tempAdicionarUser = {...adicionarUsuarioValues}
+        tempAdicionarUser.fullname = "";
+        tempAdicionarUser.username = "";
+        tempAdicionarUser.senhaUser = "";
+        tempAdicionarUser.admin = 0;
+
+        setAdicionarUsuarioValues(tempAdicionarUser);
+        setAlterarSenhaValues(tempAlterarSenha);
+        setUsersToRemoveChecked({});
+        setRequestData({});
+        setModalParams({});
+        setRefresh(prev => prev + 1);
     }
 
-    function handleChangeAdminPassword(event) {
-        const {value} = event.target;
+    async function handleSubmit(event) {
+        const {name} = event.currentTarget;
 
-        setAdminPassword(value);
-    }
-
-    const [errorSubmitModal, setErrorSubmitModal] = useState(false);
-    const [successSubmitModal, setSuccessSubmitModal] = useState(false);
-
-    function handleSubmit() {
+        const adicionarUserErrorValues = Object.values(adicionarUsuarioErrors).filter(error => error !== "").length;
+        const alterarSenhaErrorValues = Object.values(alterarSenhaErrors).filter(error => error !== "").length;
         
-        if(adminPassword) {
-            if(usuarioOption === 'adicionar-user') {
-                axiosInstance.post('/adicionarUsuario', {...adicionarUsuarioValues, senha:adminPassword})
-                .then((res) => {
-                    setRefresh(prev => prev + 1);
+        const adicionarUser = Object.values(adicionarUsuarioValues).filter(value => value !== "").length;
+        const alterarSenha = Object.values(alterarSenhaValues).filter(value => value !== "").length;
 
-                    if(res.status === 201) {
-                        setSuccessSubmitModal(true);
-                        setAdicionarUsuarioValues({fullname: '', username: '', senhaUser: '', admin: 0});
-                    }
-                })
-                .catch(err => {
-                    if(err.response.status === 401) {
-                        setErrorSubmitModal('Senha incorreta');
-                    }
-                    else if(err.response.status === 409) {
-                        setErrorSubmitModal('Usuário já existe');
-                    }
-                });
+        let params;
+        let data;
+
+        console.log("Require Password: " + requirePassword);
+
+        if(name === "adicionar-user") {
+            params = {endpoint: "/adicionarUsuario", reqType: "POST"};
+            data = {...adicionarUsuarioValues};
+            setRequestData(adicionarUsuarioValues);
+
+            if(adicionarUserErrorValues || adicionarUser === 1 && !displayModal) {
+                event.preventDefault();
+                return;
             }
-            else if(usuarioOption === 'remover-user') {
-                let ids = Object.keys(usersToRemoveChecked);
-                ids = ids.filter(id => usersToRemoveChecked[id] === true);
-                ids = ids.map(id => parseInt(id));
-                
-                axiosInstance.delete("/removerUsuario", {data: {ids, senha:adminPassword}})
-                .then((res) => {
-                    setRefresh(prev => prev + 1);
+        }
+        if(name === "alterar-senha") {
+            params = {endpoint: "/alterarSenhaUsuario", reqType: "PATCH"};
+            data = {...alterarSenhaValues};
+            setRequestData(alterarSenhaValues);
 
-                    if(res.status === 200) {
-                        setSuccessSubmitModal(true);
-                        setUsersToRemoveChecked({});
-                    }
-                })
-                .catch(err => {
-                    if(err.response.status === 401) {
-                        setErrorSubmitModal('Senha incorreta');
-                    }
-                });
+            if(alterarSenhaErrorValues || alterarSenha === 0 && !displayModal) {
+                event.preventDefault();
+                return;
             }
-            else if(usuarioOption === 'alterar-senha') {
-                axiosInstance.patch('/alterarSenhaUsuario', {...alterarSenhaValues, senha:adminPassword})
-                .then((res) => {
-                    setRefresh(prev => prev + 1);
+        }
 
-                    if(res.status === 200) {
-                        setSuccessSubmitModal(true);
-                        setAlterarSenhaValues({username: '', novaSenha: ''});
-                    }
-                })
-                .catch(err => {
-                    if(err.response.status === 401) {
-                        setErrorSubmitModal('Senha incorreta');
-                    }
-                    else if(err.response.status === 404) {
-                        setErrorSubmitModal('Usuário não encontrado');
-                    }
-                });
+        if(name === "remover-user") {
+            params = {endpoint: "/removerUsuario", reqType: "DELETE"}
+            const userArray = {ids: Object.keys(usersToRemoveChecked).filter(item => usersToRemoveChecked[item] === true)};
+
+            data = userArray;
+            setRequestData(userArray);
+
+            const usersToRemoveValues = Object.values(usersToRemoveChecked);
+            if(!usersToRemoveValues.includes(true)) {
+                event.preventDefault();
+                return;
             }
+        }
+        event.preventDefault();
 
+        setRequirePassword(+localStorage.getItem("requirePassword") <= Date.now());
+
+        if(requirePassword) {
+            setDisplayModal(true);
+            setModalParams(params);
+            myRef.current.scrollIntoView({behavior: 'instant', block: 'end'});
+            console.log(response);
+        }
+        else {
+            await axiosInstance({
+                url: params.endpoint,
+                method: params.reqType,
+                data
+            })
+            .then(res => {
+                handlePopup(true, res.data);
+                clearValues();
+            })
+            .catch(err => {
+                handlePopup(false, err.message)
+            })
         }
     }
 
+    const [response, setResponse] = useState({});
+    const [popupData, setPopupData] = useState({});
+    const [timeouts, setTimeouts] = useState([]);
+
+    function handlePopup(success, message) {
+
+        if(timeouts.length > 0) {
+            setPopupData({});
+
+            timeouts.forEach(timer => {
+                clearTimeout(timer);
+            })
+            setTimeouts([]);
+        }
+        setTimeout(() => {
+            setPopupData({success, message});
+            
+            const timeout = setTimeout(() => {
+                setPopupData({});
+            }, 2500)
+    
+            setTimeouts(prev => ([...prev, timeout]));
+        }, 50);
+    }
+
     useEffect(() => {
-        console.log(adicionarUsuarioValues);
-    }, [adicionarUsuarioValues]);
+        if(response.status >= 400) {
+            handlePopup(false, response.message);
+        }
+        else {
+            handlePopup(true, response.message)
+        }
+    }, [response]);
+
 
     function RenderUsers() {
         return(
@@ -315,37 +336,19 @@ function Usuarios() {
 
     return(
         <div className={(displayModal) ? "usuarios-container-modal-active" : "usuarios-container"}>
-            <div className={(displayModal) ? "admin-password-modal-container" : "admin-password-modal-container-off"} onClick={event => handleModal(event)} >
-                {!successSubmitModal && (
-                <div className="admin-password-modal" onClick={event => event.stopPropagation()}>
-                    <div className="admin-password-modal__input-field">
-                        <label htmlFor="adminSenha">Insira sua senha</label>
-                        <input type="password" 
-                                name="adminSenha"
-                                onChange={event => handleChangeAdminPassword(event)}
-                                value={adminPassword}
-                        />
-                        {errorSubmitModal && <p>{errorSubmitModal}</p>}
-                        
-                    </div>
-                    <div className="admin-password-modal__buttons">
-                        <button onClick={event => handleModal(event)}>Cancelar</button>
-                        <button onClick={handleSubmit}>Avançar</button>
-                    </div>
-                </div>
-                )}
-                {successSubmitModal && (
-                    <div className="admin-password-modal-success" onClick={event => event.stopPropagation()}>
-                         <button className="close-button" onClick={event => handleModal(event)}></button>
-                         <div>
-                            <img src={images.check} alt="Check logo" draggable="false"/>
-                            <p>Sucesso!</p>
-                         </div>
-                    </div>
-                )}
-            </div>
+            {requirePassword && 
+            <ModalSenha open={displayModal} 
+                        onClose={() => {
+                            setDisplayModal(false);
+                            setRequirePassword(+localStorage.getItem("requirePassword") <= Date.now());
+                        }} 
+                        onSuccess={clearValues}
+                        response={setResponse}
+                        data={requestData} 
+                        params={modalParams}
+                        />}
 
-
+            {popupData?.message && <Popup success={popupData.success} message={popupData.message}/>}
 
             <div className={(adicionarUsuarioOpen) ? "adicionar-usuario-open" : "adicionar-usuario"} onClick={handleClickAdicionarUsuario} ref={myRef}>
                 <div className="adicionar-usuario__label">
@@ -398,7 +401,7 @@ function Usuarios() {
                                     onChange={event => handleChangeAdicionarUsuario(event)}
                                     checked={adicionarUsuarioValues.admin}/>
                         </div>
-                        <button name="adicionar-user" onClick={event => handleModal(event)}>Continuar</button>
+                        <button name="adicionar-user" onClick={event => handleSubmit(event)}>Continuar</button>
                     </form>
                 </div>
             </div>
@@ -411,7 +414,7 @@ function Usuarios() {
                 </div>
                 <div className={(removerUsuarioOpen) ? "remover-usuario__content-open" : "remover-usuario__content"} onClick={event => event.stopPropagation()}>
                     <div className="search-container">
-                        <button className="remove-button" name="remover-user" onClick={event => handleModal(event)}> 
+                        <button className="remove-button" name="remover-user" onClick={event => handleSubmit(event)}> 
                             <img src={images.trash} alt="Trash logo" />
                         </button>
                         <input type="text" name="search" placeholder="Buscar Usuário" value={searchTerm} onChange={(event) => handleChangeSearchInput(event)}/>
@@ -454,7 +457,7 @@ function Usuarios() {
                                 <p>{alterarSenhaErrors.novaSenha}</p>
                             </div>
                         </div>
-                        <button name="alterar-senha" onClick={event => handleModal(event)}>Continuar</button>
+                        <button name="alterar-senha" onClick={event => handleSubmit(event)}>Continuar</button>
                     </form>
                 </div>
             </div>

@@ -5,8 +5,8 @@ import axiosInstance from "../../../../config/axios";
 function ModalSenha({open, onClose, data, params, response, onSuccess}) {
 
     const [openModal, setOpenModal] = useState(open);
-    console.log(localStorage.getItem("requirePassword") <= Date.now());
 
+    console.log(data);
     //Update open status
     useEffect(() => {
         setOpenModal(open);
@@ -16,6 +16,7 @@ function ModalSenha({open, onClose, data, params, response, onSuccess}) {
     function handleClose() {
         setOpenModal(false);
         onClose();
+        setAdminPassword("");
     }
 
     //Close modal with Escape key

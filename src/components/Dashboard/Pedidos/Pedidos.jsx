@@ -3,7 +3,10 @@ import axiosInstance from "../../../../config/axios";
 import images from "../../../assets/images/images";
 import {formatDatetime} from "../../../utils/helpers";
 import {InputMask} from "@react-input/mask"
+
 import Popup from "../Popup/Popup";
+import ModalSenha from "../ModalSenha/ModalSenha";
+
 import "./pedidos.scss";
 
 function Pedidos() {
@@ -313,13 +316,11 @@ function Pedidos() {
     const [updatePedidoLoading, setUpdatePedidoLoading] = useState(false);
 
     async function submitUpdatePedido() {
-        // console.log(errorsPedido);
 
         const errors = Object.values(errorsPedido).filter(e => e !== "");
         const dados = Object.values(pedidoUpdated);
         console.log(dados)
 
-        // console.log(errors.length)
 
         if(errors.length === 0 && dados.length === 11) {
             const pedido = {...pedidoUpdated};
@@ -419,6 +420,76 @@ function Pedidos() {
         
     }
 
+    const [displayPasswordModal, setDisplayPasswordModal] = useState(false);
+    const [requirePassword, setRequirePassword] = useState(+localStorage.getItem("requirePassword") <= Date.now());
+    const [response, setResponse] = useState({});
+    const [modalParams, setModalParams] = useState({});
+    const [requestData, setRequestData] = useState({});
+
+    useEffect(() => {
+        if(response.status >= 400) {
+            handlePopup(false, response.message);
+        }
+        else {
+            handlePopup(true, response.message)
+        }
+    }, [response]);
+
+    async function handleSubmit(event) {
+        const {name} = event.target;
+        let params;
+        let data;
+
+        if(name === "alterar-pedido") {
+            const errors = Object.values(errorsPedido).filter(e => e !== "");
+            const dados = Object.values(pedidoUpdated);
+
+
+            if(errors.length > 0) {
+                handlePopup(false, "Corrija os erros antes de enviar o formulário!");
+                return;
+            }
+            else if(dados.length !== 11) {
+                handlePopup(false, "Preencha todos os campos antes de enviar o formulário!");
+                return;
+            }
+
+            params = {endpoint: "/alterarPedido", reqType: "PATCH"};
+            let tempObj = {...pedidoUpdated};
+            delete tempObj.id;
+
+            data = {id: pedidoUpdated.id, data: tempObj};
+        }
+        else if(name === "remover-pedido") {
+            if(!pedidoModal.id) {
+                return;
+            }
+
+            params = {endpoint: "/removerPedido", reqType: "DELETE"};
+            data = {id: pedidoModal.id};
+        }
+
+        if(requirePassword) {
+            setDisplayPasswordModal(true);
+            setModalParams(params);
+            setRequestData(data);
+        }
+        else {
+            await axiosInstance({
+                method: params.reqType,
+                url: params.endpoint,
+                data
+            })
+            .then((res) => {
+                handlePopup(true, res.data);
+                setRefresh(prev => prev + 1);
+            })
+            .catch((err) => {
+                handlePopup(false, err.message);
+            })
+        }
+    }
+
     function RenderPedidos() {
         return(
             pedidos.map((pedido, index) => {
@@ -450,19 +521,40 @@ function Pedidos() {
 
     return(
         <div className="pedidos-container">
+            {requirePassword && <ModalSenha open={displayPasswordModal}
+                                            response={setResponse}
+                                            params={modalParams}
+                                            data={requestData}
+                                            onSuccess={() => setRefresh(prev => prev + 1)}
+                                            onClose={() => {
+                                                setDisplayPasswordModal(false);
+                                                setRequirePassword(+localStorage.getItem("requirePassword") <= Date.now());
+                                            }}                                
+            />}
+
             {popupData?.message && <Popup success={popupData.success} message={popupData.message}/>}
 
             <div className={(openModal) ? "pedidos-container__modal-wrapper" : "hidden"} onClick={toggleModal}>
                 <div className="pedidos-container__modal-wrapper__modal" onClick={event => event.stopPropagation()} >
                     <button className="close-button" onClick={toggleModal}></button>
-                    {(modalOpenMode === "pedido") && <button className="edit-button" onClick={handleClickEditPedidos} style={(editPedidos) ? {backgroundColor: "#606060" } : {}}>
+                    
+                    {(modalOpenMode === "pedido") && 
+                    <button className="edit-button" onClick={handleClickEditPedidos} style={(editPedidos) ? {backgroundColor: "#606060" } : {}}>
                         <img src={images.pencil} alt="Edit icon" />
                     </button>}
-
+                    
+                    {(modalOpenMode === "pedido") && 
+                    <button className="remove-button" 
+                            name="remover-pedido"
+                            onClick={event => handleSubmit(event)}>
+                        <img src={images.trash} alt="" />
+                    </button>}
+                    
                     {editPedidos && 
                     <button className={(updatePedidoLoading) ? "save-button-loading" : "save-button"} 
-                            onClick={submitUpdatePedido}
+                            onClick={event => handleSubmit(event)}
                             disabled={updatePedidoLoading}
+                            name="alterar-pedido"
                     >
                         {!updatePedidoLoading && "Salvar"}
                         {updatePedidoLoading && <img src={images.refresh}></img>}

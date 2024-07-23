@@ -47,6 +47,10 @@
                     cursor: pointer;
                     background-color: #c4c4c4;
                 }
+
+                img {
+                    pointer-events: none;
+                }
             }
 
             .close-button {

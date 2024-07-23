@@ -60,8 +60,16 @@ function Pedidos() {
         if(openModal === false) {
             setModalOpenMode(event.target.name);
             setErrorsPedido({});
-            setDadosNovoPedido({});
             setPedidoUpdated(pedidoModal);
+
+            const tempObj = {...dadosNovoPedido};
+            const keys = Object.keys(tempObj);
+            keys.forEach(key => {
+                tempObj[key] = "";
+            })
+
+            setDadosNovoPedido(tempObj);
+
         }
 
         if(openModal === false) {
@@ -315,44 +323,44 @@ function Pedidos() {
 
     const [updatePedidoLoading, setUpdatePedidoLoading] = useState(false);
 
-    async function submitUpdatePedido() {
+    // async function submitUpdatePedido() {
 
-        const errors = Object.values(errorsPedido).filter(e => e !== "");
-        const dados = Object.values(pedidoUpdated);
-        console.log(dados)
+    //     const errors = Object.values(errorsPedido).filter(e => e !== "");
+    //     const dados = Object.values(pedidoUpdated);
+    //     console.log(dados)
 
 
-        if(errors.length === 0 && dados.length === 11) {
-            const pedido = {...pedidoUpdated};
-            delete pedido["id"];
-            const id = Number(pedidoUpdated["id"]);
-            setUpdatePedidoLoading(true);
+    //     if(errors.length === 0 && dados.length === 11) {
+    //         const pedido = {...pedidoUpdated};
+    //         delete pedido["id"];
+    //         const id = Number(pedidoUpdated["id"]);
+    //         setUpdatePedidoLoading(true);
 
-            await axiosInstance.patch("/alterarPedido", {id:id, data:{...pedido}})
-            .then(() => {
-                setRefresh(prev => prev + 1);
-                setPedidoModal(prev => ({...prev, ...pedidoUpdated}));
-                handlePopup(true, "Pedido alterado com sucesso!")
+    //         await axiosInstance.patch("/alterarPedido", {id:id, data:{...pedido}})
+    //         .then(() => {
+    //             setRefresh(prev => prev + 1);
+    //             setPedidoModal(prev => ({...prev, ...pedidoUpdated}));
+    //             handlePopup(true, "Pedido alterado com sucesso!")
     
-                setTimeout(() => {
-                    setEditPedidos(false);
-                    setUpdatePedidoLoading(false);
-                }, 500)
-            })
-            .catch(err => {
-                handlePopup(false, err.response.data)
-                setTimeout(() => {
-                    setUpdatePedidoLoading(false);
-                }, 500)           
-            });      
-        }
-        else if(errors.length > 0) {
-            handlePopup(false, "Corrija os erros antes de enviar o formulário!")
-        }
-        else if(dados.length !== 11) {
-            handlePopup(false, "Preencha todos os campos antes de enviar o formulário!")
-        }
-    }
+    //             setTimeout(() => {
+    //                 setEditPedidos(false);
+    //                 setUpdatePedidoLoading(false);
+    //             }, 500)
+    //         })
+    //         .catch(err => {
+    //             handlePopup(false, err.response.data)
+    //             setTimeout(() => {
+    //                 setUpdatePedidoLoading(false);
+    //             }, 500)           
+    //         });      
+    //     }
+    //     else if(errors.length > 0) {
+    //         handlePopup(false, "Corrija os erros antes de enviar o formulário!")
+    //     }
+    //     else if(dados.length !== 11) {
+    //         handlePopup(false, "Preencha todos os campos antes de enviar o formulário!")
+    //     }
+    // }
 
     async function handleClickFinalizado() {
         await axiosInstance.patch("/alterarPedido", {id:pedidoModal.id, data:{finalizado:(!pedidoModal.finalizado) ? 1 : 0}})
@@ -401,7 +409,7 @@ function Pedidos() {
     
                 setTimeout(() => {
                     toggleModal();
-                }, 2000)
+                }, 500)
             })
             .catch((err) => {
                 handlePopup(false, err.response.data)
@@ -434,6 +442,10 @@ function Pedidos() {
             handlePopup(true, response.message)
         }
     }, [response]);
+
+    useEffect(() => {
+        setRequirePassword(+localStorage.getItem("requirePassword") <= Date.now());
+    }, [dadosNovoPedido, requestData, pedidoUpdated, openModal]);
 
     async function handleSubmit(event) {
         const {name} = event.target;
@@ -483,6 +495,12 @@ function Pedidos() {
             .then((res) => {
                 handlePopup(true, res.data);
                 setRefresh(prev => prev + 1);
+                setEditPedidos(false);
+                setPedidoModal(prev =>({...prev, ...pedidoUpdated}));
+
+                if(name === "remover-pedido") {
+                    setOpenModal(false);
+                }
             })
             .catch((err) => {
                 handlePopup(false, err.message);
@@ -525,7 +543,11 @@ function Pedidos() {
                                             response={setResponse}
                                             params={modalParams}
                                             data={requestData}
-                                            onSuccess={() => setRefresh(prev => prev + 1)}
+                                            onSuccess={() => {
+                                                setRefresh(prev => prev + 1)
+                                                setEditPedidos(false);
+                                                setPedidoModal(prev =>({...prev, ...pedidoUpdated}));
+                                            }}
                                             onClose={() => {
                                                 setDisplayPasswordModal(false);
                                                 setRequirePassword(+localStorage.getItem("requirePassword") <= Date.now());

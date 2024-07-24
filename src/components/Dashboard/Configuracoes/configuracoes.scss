@@ -1,0 +1,176 @@
+@import '../../../scss/variables';
+@import '../../../scss/functions';
+@import '../../../scss/mixins';
+
+.config-container {
+    width: 100%;
+    margin: 20px;
+    overflow-y: scroll;
+    position: relative;
+
+    button {
+        height: 40px;
+        width: 120px;
+        border-radius: 100px;
+        border: none;
+        transition: all ease-in-out 125ms;
+        background-color: #979797;
+        color: white;
+        font-size: 18px;
+        font-weight: 500;
+
+        &:hover {
+            cursor: pointer;
+            background-color: #c4c4c4;
+        }
+    }
+
+    &__alterar-foto, &__alterar-senha {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        background-color: white;
+        border-radius: 7px;
+        box-shadow: 3px 3px 15px rgb(211, 211, 211);
+        width: 100%;
+        margin-bottom: 15px;
+        padding: 15px
+    }
+
+    &__alterar-foto {
+        & > p {
+            margin-bottom: 15px
+        }
+
+        &__content {
+            @include flex(0, 2);    
+
+            .image-container {
+                @include flex(0, 0);
+                background-color: rgb(235, 235, 235);
+                box-shadow: 3px 3px 15px rgb(228, 228, 228);
+                width: 220px;
+                height: 160px;
+                border-radius: 10px;
+                position: relative;
+
+                & > div {
+                    @include flex(0 ,0);
+                    height: 145px;
+                    width: 145px;
+                    border-radius: 200px;
+                    overflow: hidden;
+                    border: 1px dashed rgb(196, 196, 196);
+
+                    img {
+                        height: 100%;
+                        user-select: none
+                    }
+                }
+
+                input {
+                    position: absolute;
+                    height: 100%;
+                    width: 100%;
+                    left: 0;
+                    top: 0;
+                    color: transparent;
+                    border-radius: 10px;
+                    transition: all ease-in-out 125ms;
+
+                    &:hover {
+                        cursor: pointer;
+                        backdrop-filter: brightness(90%);
+                        border: 1px dashed rgb(119, 119, 119);
+                    }
+                }
+
+                input::file-selector-button {
+                    display: none;
+                }
+            }
+
+            .actions-container {
+                @include flex(1,0);
+                flex-direction: column;
+                align-items: start;
+                height: 160px;
+                margin: 0 30px;
+
+                p {
+                    max-width: 300px;
+                    font-weight: 400;
+                }
+
+                div {
+                    button {
+                        margin-right: 15px;
+                        position: relative;
+
+                    }
+                }
+            }
+        }
+
+    }
+
+    &__alterar-senha {
+
+        & > p {
+            margin-bottom: 15px;
+        }
+
+        &__content {
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+            width: 100%;
+            background-color:#fafafa;
+            padding: 15px;
+            border-radius: 7px;
+
+            .input-container {
+                @include flex(0 ,0);
+                justify-content: start;
+                margin-bottom: 30px;
+                flex-wrap: wrap;
+
+                & > div {
+                    display: flex;
+                    flex-direction: column;
+                    margin-right: 30px;
+                    width: 90%;
+                    max-width: 400px;
+                    height: 112px;
+
+                    input, .input-error {
+                        height: 40px;
+                        border: 1px dashed rgb(240, 240, 240);
+                        box-shadow: 1px 1px 10px rgb(226, 226, 226);
+                        border-radius: 5px;
+                        font-size: 17px;
+                        padding: 0 10px;
+
+                        &:focus {
+                            border: 1px solid black;
+                            outline: none;
+                        }
+                    }
+
+                    .input-error {
+                        border: 1px solid rgb(204, 38, 38);
+                        
+                        &:focus {
+                            border: 1px solid rgb(204, 38, 38);
+                        }
+                    }
+
+                    p {
+                        color: rgb(204, 38, 38);
+                        max-width: 400px;
+                    }
+                }
+            }
+        }
+    }
+}

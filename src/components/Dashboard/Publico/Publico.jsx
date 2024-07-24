@@ -66,8 +66,13 @@ function Publico() {
         console.log(event.dataTransfer);
         
         if(files && files.length > 0) {
-            const filename = files[0].name
-            if(filename.endsWith("jpg") || filename.endsWith("svg") || filename.endsWith("png")) {
+            const filename = files[0].name.toLowerCase();
+
+            if(files[0].size >= 10485760) {
+                return;
+            }
+            
+            if(filename.endsWith("jpg") || filename.endsWith("svg") || filename.endsWith("png") || filename.endsWith("jpeg")) {
                 setImage(files[0]);
             }
         }
@@ -77,8 +82,8 @@ function Publico() {
         const {files} = event.target;
 
         if(files && files.length > 0) {
-            const filename = files[0].name
-            if(filename.endsWith("jpg") || filename.endsWith("svg") || filename.endsWith("png")) {
+            const filename = files[0].name.toLowerCase();
+            if(filename.endsWith("jpg") || filename.endsWith("svg") || filename.endsWith("png") || filename.endsWith("jpeg")) {
                 setImage(files[0]);
             }
         }
@@ -130,7 +135,15 @@ function Publico() {
                 setRefresh(prev => prev + 1);
             })
             .catch(err => {
-                setResponse(err.status, err.message);
+                // setResponse(err.status, err.message)
+                if(err.response.status === 413) {
+                    handlePopup(false, "A imagem não deve exceder 10MB");
+                    return;
+                }
+                handlePopup(false, err.response.data || err.message);
+            })
+            .finally(() => {
+                setImage({name: ""});
             })
         }
     }
@@ -170,7 +183,7 @@ function Publico() {
                     }}
                     style={(fileOver) ? {backgroundColor: "rgb(236, 236, 236)", border: "1px dashed rgb(122, 122, 122)"} : {}}
                     >
-                    <p>Arraste um arquivo até aqui ou </p>
+                    <p>Arraste um arquivo(Max. 10MB) até aqui ou </p>
                     <input type="file"
                     allow="image/*"
                     onChange={event => handleChangeBrowse(event)}

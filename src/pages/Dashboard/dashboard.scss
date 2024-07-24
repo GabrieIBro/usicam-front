@@ -68,7 +68,7 @@
         box-shadow: 0px 0px 0px transparent !important;
     }
 
-    .user-image {
+    .user-image, .default-image {
         filter: invert(95%) hue-rotate(180deg) contrast(115%);
     }
 
@@ -97,6 +97,12 @@
             div {
                 filter: invert(95%) hue-rotate(180deg) contrast(115%);
             }
+        }
+    }
+
+    .config-container {
+        img {
+            filter: invert(95%) hue-rotate(180deg) contrast(115%);
         }
     }
 }

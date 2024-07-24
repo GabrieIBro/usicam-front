@@ -2,7 +2,7 @@
 @import '../../../scss/functions';
 @import '../../../scss/mixins';
 
-.container {
+.popup-container {
     @include flex(0, 0);
     justify-content: start;
     position: absolute;
@@ -44,7 +44,7 @@
         background-color:rgb(218, 89, 89);
     }
 
-    &__content {
+    &__text-content {
         width: 100%;
         min-height: 100%;
         padding: 10px;

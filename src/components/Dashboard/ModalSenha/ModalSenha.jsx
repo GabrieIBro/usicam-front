@@ -68,7 +68,7 @@ function ModalSenha({open, onClose, data, params, response, onSuccess}) {
             console.log(err);
             response({status: err?.response.status, message: err?.response.data || err.message});
         })
-        .finally()
+
 
         await axiosInstance.get("/requirePasswordAt")
         .then(res => {

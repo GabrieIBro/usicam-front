@@ -412,7 +412,7 @@ function Pedidos() {
                 }, 500)
             })
             .catch((err) => {
-                handlePopup(false, err.response.data)
+                handlePopup(false, err.response.data || err.message)
 
                 setTimeout(() => {
                     setAdicionarPedidoLoading(false);
@@ -503,7 +503,7 @@ function Pedidos() {
                 }
             })
             .catch((err) => {
-                handlePopup(false, err.message);
+                handlePopup(false, err.response.data || err.message);
             })
         }
     }

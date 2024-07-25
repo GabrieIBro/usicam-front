@@ -195,11 +195,11 @@ function Publico() {
             <div className="publico-container__remover-imagens">
                 {
                     images.map((image, index) => (
-                        <div key={index} className="image-container" style={{backgroundImage: `url(http://${import.meta.env.VITE_SERVER_DOMAIN}:8080/api/servicos/${image.filename})`}}>
+                        <div key={index} className="image-container" style={{backgroundImage: `url(http://${import.meta.env.VITE_SERVER_DOMAIN}/api/servicos/${image.filename})`}}>
                             <button id={image.filename} onClick={event => handleSubmit(event)} name="remover-imagem">
                                 <img src={imageList.trash} alt="" />
                             </button>
-                            <img src={`http://${import.meta.env.VITE_SERVER_DOMAIN}:8080/api/servicos/` + image.filename} alt="Service image" draggable="false" loading="lazy"/>
+                            <img src={`http://${import.meta.env.VITE_SERVER_DOMAIN}/api/servicos/` + image.filename} alt="Service image" draggable="false" loading="lazy"/>
                         </div>
                     ))
                 }

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-    baseURL:`http://${import.meta.env.VITE_SERVER_DOMAIN}:8080/api`,
+    baseURL:`http://${import.meta.env.VITE_SERVER_DOMAIN}/api`,
     withCredentials: true
 })
 

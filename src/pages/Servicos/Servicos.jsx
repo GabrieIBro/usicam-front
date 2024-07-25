@@ -18,8 +18,8 @@ function Servicos() {
 		return(
 			<div className="gallery">{
 				images.map((image, index) => (
-						<div key={index} className="gallery__image-container" style={{backgroundImage: `url(http://${import.meta.env.VITE_SERVER_DOMAIN}/api/servicos/${image.filename})`}}>
-							<img src={`http://${import.meta.env.VITE_SERVER_DOMAIN}/api/servicos/` + image.filename} alt="Service image" draggable="false" loading="lazy"/>
+						<div key={index} className="gallery__image-container" style={{backgroundImage: `url(${import.meta.env.VITE_SERVER_DOMAIN}/api/servicos/${image.filename})`}}>
+							<img src={`${import.meta.env.VITE_SERVER_DOMAIN}/api/servicos/` + image.filename} alt="Service image" draggable="false" loading="lazy"/>
 						</div>
 				))
 			}</div>

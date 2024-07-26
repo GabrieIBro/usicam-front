@@ -3,6 +3,8 @@ import axiosInstance from "../../../../config/axios";
 import { formatDatetime } from "../../../utils/helpers";
 import "./mensagens.scss"
 import images from "../../../assets/images/images";
+
+import ModalSenha from "../ModalSenha/ModalSenha";
 import Popup from "../Popup/Popup";
 
 function Mensagens() {
@@ -43,6 +45,11 @@ function Mensagens() {
 
     const [popupData, setPopupData] = useState({});
     const [timeouts, setTimeouts] = useState([]);
+    const [requirePassword, setRequirePassword] = useState(+localStorage.getItem("requirePassword") <= Date.now());
+    const [displayModalSenha, setDisplayModalSenha] = useState(false);
+    const [modalParams, setModalParams] = useState({});
+    const [requestData, setRequestData] = useState({});
+    const [response, setResponse] = useState({});
 
     function handlePopup(success, message) {
         if(timeouts.length > 0) {
@@ -63,6 +70,15 @@ function Mensagens() {
             setTimeouts(prev => ([...prev, timeout]));
         }, 50);
     }
+
+    useEffect(() => {
+        if(response.status >= 400) {
+            handlePopup(false, response.message);
+        }
+        else {
+            handlePopup(true, response.message)
+        }
+    }, [response]);
 
     function handleFilterChange(event) {
         let {name, value} = event.target;
@@ -86,6 +102,9 @@ function Mensagens() {
         ids.forEach((id) => {
             setCheckState(prev => ({...prev, [id]:checked}))
         })
+
+        setRequirePassword(+localStorage.getItem("requirePassword") <= Date.now());
+
     }
 
     useEffect(() => {
@@ -103,20 +122,33 @@ function Mensagens() {
         const {id, checked} = event.target
 
         setCheckState(prev => ({...prev, [id]:checked}));
+
+        setRequirePassword(+localStorage.getItem("requirePassword") <= Date.now());
     }
 
     async function handleDeleteMessage() {
         
         const deleteIds = ids.filter(id => checkState[id] === true);
 
-        axiosInstance.delete('/removerMensagens', {data:{ids:deleteIds}})
-        .then(() => {
-            setDeleteCount(prev => prev + 1);
-            handlePopup(true, "Mensagem deletada com sucesso!");
-        })
-        .catch(err => {
-            handlePopup(false, err.response.data || err.message);
-        })
+        if(deleteIds.length === 0) {
+            return;
+        }
+
+        if(requirePassword) {
+            setDisplayModalSenha(true);
+            setRequestData({ids:deleteIds});
+            setModalParams({endpoint: "/removerMensagens", reqType: "DELETE"});
+        }
+        else {
+            axiosInstance.delete('/removerMensagens', {data:{ids:deleteIds}})
+            .then(() => {
+                setDeleteCount(prev => prev + 1);
+                handlePopup(true, "Mensagem deletada com sucesso!");
+            })
+            .catch(err => {
+                handlePopup(false, err.response.data || err.message);
+            })
+        }
     }
 
     function handleClickMessage(event) {
@@ -196,6 +228,18 @@ function Mensagens() {
     return(
         <div className="content-wrapper-mensagens">
             {popupData?.message && <Popup success={popupData.success} message={popupData.message}/>}
+            {requirePassword && 
+            <ModalSenha open={displayModalSenha}
+                        data={requestData}
+                        params={modalParams}
+                        response={setResponse}
+                        onClose={() => {
+                            setDisplayModalSenha(false);
+                            setRequirePassword(+localStorage.getItem("requirePassword") <= Date.now());
+                        }}
+                        onSuccess={() => setRefresh(prev => prev + 1)}
+
+            />}
 
             <div className="mensagens-controls">
                 <div className="mensagens-controls__remove-resync">

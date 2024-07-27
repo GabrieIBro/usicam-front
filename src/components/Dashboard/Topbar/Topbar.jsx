@@ -6,6 +6,7 @@ import axiosInstance from "../../../../config/axios";
 function Topbar(props) {
     const [fotoPerfil, setFotoPerfil] = useState();
     const [darkMode, setDarkMode] = useState((localStorage.getItem("mode") === "dark") ? true : false);
+    const [passwordTimeout, setPasswordTimeout] = useState();
 
     function handleClickDarkMode() {
         setDarkMode(prev => !prev);
@@ -22,6 +23,12 @@ function Topbar(props) {
         })
     }, []);
 
+    useEffect(() => {
+        setInterval(() => {
+            setPasswordTimeout(Date.now() - (+localStorage.getItem("requirePassword")));
+        }, 1000)
+    }, []);
+
     return(
         <div className="topbar">
 
@@ -31,6 +38,8 @@ function Topbar(props) {
                     <img src={images.sun} draggable="false"></img>
                 </div>
             </div>
+
+            <p>{passwordTimeout}</p>
 
             <div className="topbar__user">
                 <div className="topbar__user__image-container">

@@ -134,7 +134,7 @@ function Configuracoes() {
             }
         })
         .catch(err => {
-            handlePopup(false, err.response.data || err.message);
+            handlePopup(false, err?.response.data || err.message);
         })
     }
 

@@ -89,17 +89,13 @@ function Publico() {
         }
     }
 
-    useEffect(() => {
-        console.log(image);
-    }, [image])
-
     async function handleSubmit(event) {
         const {id, name} = event.currentTarget;
         let data;
         let params;
 
         if(name === "adicionar-imagem") {
-            if(!image) {
+            if(!image?.name) {
                 return;
             }
 
@@ -117,8 +113,6 @@ function Publico() {
             params = {reqType: "DELETE", endpoint: "/removerImageServico"};
         }
 
-        setRequirePassword(+localStorage.getItem("requirePassword") <= Date.now());
-
         if(requirePassword) {
             setDisplayModal(true);
             setRequestData(data);
@@ -133,6 +127,8 @@ function Publico() {
             .then(res => {
                 handlePopup(true, res.data);
                 setRefresh(prev => prev + 1);
+
+                setImage(null);
             })
             .catch(err => {
                 // setResponse(err.status, err.message)
@@ -140,11 +136,9 @@ function Publico() {
                     handlePopup(false, "A imagem não deve exceder 10MB");
                     return;
                 }
-                handlePopup(false, err.response.data || err.message);
+                handlePopup(false, err?.response.data || err.message);
             })
-            .finally(() => {
-                setImage({name: ""});
-            })
+
         }
     }
 
@@ -160,7 +154,11 @@ function Publico() {
                         }}
                         data={requestData} 
                         params={modalParams}
-                        onSuccess={() => setRefresh(prev => prev + 1)}
+                        onSuccess={() => {
+                            setRefresh(prev => prev + 1);
+                            setImage(null);
+                        }}
+
                         response={setResponse}
             />}
 
@@ -168,7 +166,9 @@ function Publico() {
             <div className="publico-container__adicionar-imagem">
                 <div>
                     <p>Adicionar Imagem (JPG, PNG, SVG)</p>
-                    <button name="adicionar-imagem" onClick={event => handleSubmit(event)}>Avançar</button>
+                    <button name="adicionar-imagem" 
+                            onMouseOver={() => setRequirePassword(+localStorage.getItem("requirePassword") <= Date.now())}
+                            onClick={event => handleSubmit(event)}>Avançar</button>
                 </div>
                 <div onDrop={event => handleDrop(event)} 
                     onDragOver={(e) => {
@@ -196,9 +196,14 @@ function Publico() {
                 {
                     images.map((image, index) => (
                         <div key={index} className="image-container" style={{backgroundImage: `url(${import.meta.env.VITE_SERVER_DOMAIN}/api/servicos/${image.filename})`}}>
-                            <button id={image.filename} onClick={event => handleSubmit(event)} name="remover-imagem">
+                            <button id={image.filename} 
+                                    onClick={event => handleSubmit(event)} 
+                                    onMouseOver={() => setRequirePassword(+localStorage.getItem("requirePassword") <= Date.now())}
+                                    name="remover-imagem">
+
                                 <img src={imageList.trash} alt="" />
                             </button>
+
                             <img src={`${import.meta.env.VITE_SERVER_DOMAIN}/api/servicos/` + image.filename} alt="Service image" draggable="false" loading="lazy"/>
                         </div>
                     ))

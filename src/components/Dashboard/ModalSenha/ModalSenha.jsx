@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./modalsenha.scss";
 import axiosInstance from "../../../../config/axios";
+import Spinner from "../../Spinner/Spinner";
 
 function ModalSenha({open, onClose, data, params, response, onSuccess}) {
 
     const [openModal, setOpenModal] = useState(open);
+    const [loading, setLoading] = useState(false);
 
-    console.log(data);
     //Update open status
     useEffect(() => {
         setOpenModal(open);
@@ -44,9 +45,20 @@ function ModalSenha({open, onClose, data, params, response, onSuccess}) {
     async function handleSubmit() {
         let dataJoin;
 
+        if(adminPassword.length === 0) {
+            return;
+        }
+
+        setLoading(true);
+
         if(params?.formData) {
-            dataJoin = data;
+            dataJoin = new FormData();
             dataJoin.append("senha", adminPassword);
+            for(const pair of data.entries()) {
+                dataJoin.append(pair[0], pair[1]);
+            }
+
+            // console.log(dataJoin);
         }
         else {
             dataJoin = {...data, senha:adminPassword};
@@ -58,21 +70,29 @@ function ModalSenha({open, onClose, data, params, response, onSuccess}) {
             data: dataJoin
         })
         .then(res => {
-            console.log(res);                
-            response({status: res.status, message: res.data});
-            onSuccess();
-            handleClose();
-            setAdminPassword("");
+            // console.log(res);    
+            setTimeout(() => {
+                response({status: res.status, message: res.data});
+                onSuccess();
+                handleClose();
+                setAdminPassword("");
+            }, 2000)            
         })
         .catch(err => {
             console.log(err);
             response({status: err?.response.status, message: err?.response.data || err.message});
         })
+        .finally(() => {
+            setTimeout(() => {
+                setLoading(false);
+
+            }, 2000)
+        })
 
 
         await axiosInstance.get("/requirePasswordAt")
         .then(res => {
-            console.log(res.data)
+            // console.log(res.data)    
             if(+res.data !== 0) {
                 localStorage.setItem("requirePassword", +res.data);
             }
@@ -90,7 +110,10 @@ function ModalSenha({open, onClose, data, params, response, onSuccess}) {
                          onChange={event => handleChange(event)} 
                          value={adminPassword}/>
 
-                <button className="avancar-button" onClick={handleSubmit}>Avançar</button>
+                <button className="avancar-button" onClick={handleSubmit}>
+                    {loading && <Spinner/>}
+                    {!loading && "Avançar"}
+                </button>
             </div>
         </div>
         }

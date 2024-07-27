@@ -146,7 +146,7 @@ function Mensagens() {
                 handlePopup(true, "Mensagem deletada com sucesso!");
             })
             .catch(err => {
-                handlePopup(false, err.response.data || err.message);
+                handlePopup(false, err?.response.data || err.message);
             })
         }
     }

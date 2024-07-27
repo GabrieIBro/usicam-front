@@ -61,7 +61,7 @@ function Login() {
                     if(result.status === 200) {
                         setLoginError("");
                         navigate('/dashboard');
-                        localStorage.setItem("requirePassword", (Date.now() + 10800000));
+                        localStorage.setItem("requirePassword", (Date.now() + 120000));
                     }
                 } 
                 catch (error) {

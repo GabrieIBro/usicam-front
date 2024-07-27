@@ -5,6 +5,7 @@ import "./publico.scss";
 
 import ModalSenha from "../ModalSenha/ModalSenha";
 import Popup from "../Popup/Popup";
+import Spinner from "../../Spinner/Spinner";
 
 function Publico() {
     const [images, setImages] = useState([]);
@@ -19,6 +20,9 @@ function Publico() {
 
     const [response, setResponse] = useState({});
     const [timeouts, setTimeouts] = useState([]);
+
+    const [adicionarImagemLoading, setAdicionarImagemLoading] = useState(false);
+    const [removerImageLoading, setRemoverImagemLoading] = useState({});
 
     function handlePopup(success, message) {
 
@@ -103,6 +107,9 @@ function Publico() {
             data.append("imagem", image);
             params = {reqType: "POST", endpoint: "/uploadImagemServico", formData: true};
 
+            if(!requirePassword) {
+                setAdicionarImagemLoading(true);
+            }
         }
         else if(name === "remover-imagem") {
             if(!id) {
@@ -111,6 +118,9 @@ function Publico() {
             
             data = {filename: id};
             params = {reqType: "DELETE", endpoint: "/removerImageServico"};
+            if(!requirePassword) {
+                setRemoverImagemLoading({[id]:true});
+            }
         }
 
         if(requirePassword) {
@@ -137,6 +147,10 @@ function Publico() {
                     return;
                 }
                 handlePopup(false, err?.response.data || err.message);
+            })
+            .finally(() => {
+                setAdicionarImagemLoading(false);
+                setRemoverImagemLoading({});
             })
 
         }
@@ -168,7 +182,10 @@ function Publico() {
                     <p>Adicionar Imagem (JPG, PNG, SVG)</p>
                     <button name="adicionar-imagem" 
                             onMouseOver={() => setRequirePassword(+localStorage.getItem("requirePassword") <= Date.now())}
-                            onClick={event => handleSubmit(event)}>Avançar</button>
+                            onClick={event => handleSubmit(event)}>
+                                {adicionarImagemLoading && <Spinner/>}
+                                {!adicionarImagemLoading && "Avançar"}
+                    </button>
                 </div>
                 <div onDrop={event => handleDrop(event)} 
                     onDragOver={(e) => {
@@ -201,7 +218,8 @@ function Publico() {
                                     onMouseOver={() => setRequirePassword(+localStorage.getItem("requirePassword") <= Date.now())}
                                     name="remover-imagem">
 
-                                <img src={imageList.trash} alt="" />
+                                {removerImageLoading?.[image.filename] && <Spinner/>}
+                                {!removerImageLoading?.[image.filename] && <img src={imageList.trash} alt="Trash logo" />}
                             </button>
 
                             <img src={`${import.meta.env.VITE_SERVER_DOMAIN}/api/servicos/` + image.filename} alt="Service image" draggable="false" loading="lazy"/>

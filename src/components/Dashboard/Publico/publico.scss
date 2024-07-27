@@ -19,7 +19,7 @@
         box-shadow: 3px 3px 15px rgb(211, 211, 211);
         padding: 15px;
 
-        div:first-child {
+        & > div:first-child {
             @include flex(2, 0);
             margin: 15px 0 30px 0;
 
@@ -38,6 +38,7 @@
                 color: white;
                 font-size: 18px;
                 font-weight: 500;
+                position: relative;
 
                 &:hover {
                     cursor: pointer;
@@ -46,7 +47,7 @@
             }
         }
 
-        div:last-child {
+        & > div:last-child {
             @include flex(0, 0);
             background-color: rgb(245, 245, 245);
             height: 100%;
@@ -92,7 +93,7 @@
         padding: 15px;
         margin-top: 20px;
         
-        div {
+        & > div {
             width: 250px;
             height: 150px;
             margin: 15px;
@@ -130,7 +131,7 @@
                 height: 100%;
                 object-fit:contain;
                 border-radius: 10px;
-                backdrop-filter: blur(15px);
+                backdrop-filter: blur(9px);
             }
         }
     }

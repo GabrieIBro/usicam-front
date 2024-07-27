@@ -18,6 +18,7 @@
         color: white;
         font-size: 18px;
         font-weight: 500;
+        position: relative;
 
         &:hover {
             cursor: pointer;
@@ -54,6 +55,13 @@
                 border-radius: 10px;
                 position: relative;
 
+                .no-profile-image {
+                    img {
+                        max-width: 100px;
+                        margin-bottom: 22px
+                    }
+                }
+        
                 & > div {
                     @include flex(0 ,0);
                     height: 145px;
@@ -103,6 +111,7 @@
                 }
 
                 div {
+                    display: flex;
                     button {
                         margin-right: 15px;
                         position: relative;

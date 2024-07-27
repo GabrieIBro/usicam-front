@@ -7,21 +7,40 @@ function Topbar(props) {
     const [fotoPerfil, setFotoPerfil] = useState();
     const [darkMode, setDarkMode] = useState((localStorage.getItem("mode") === "dark") ? true : false);
     const [passwordTimeout, setPasswordTimeout] = useState();
+    const [refresh, setRefresh] = useState(1);
 
     function handleClickDarkMode() {
         setDarkMode(prev => !prev);
 
         localStorage.setItem("mode", (!darkMode) ? "dark" : "light");
-        const event = new StorageEvent('storage', {key: "mode"})
+        const event = new StorageEvent('storage', {key: "mode"});
         window.dispatchEvent(event);
     }
+
+    useEffect(() => {
+        function listen(e) {
+            if(e.key === "refresh") {
+                setTimeout(() => {
+                    setRefresh(prev => prev + 1);
+                }, 100)
+            }
+        }
+        window.addEventListener("storage", listen);
+
+        return () => {
+            window.removeEventListener("storage", listen);
+        }
+    }, []);
 
     useEffect(() => {
         axiosInstance.get("/fotoPerfil")
         .then(res => {
             setFotoPerfil(res.data);
         })
-    }, []);
+        .catch(() => {
+            setFotoPerfil(null);
+        })
+    }, [refresh]);
 
     useEffect(() => {
         setInterval(() => {

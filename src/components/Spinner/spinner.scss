@@ -14,6 +14,7 @@
     img {
         width: 25px;
         animation: rotate 1000ms infinite;
+        filter: brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(0%) hue-rotate(288deg) brightness(102%) contrast(102%);
     }
 }
 

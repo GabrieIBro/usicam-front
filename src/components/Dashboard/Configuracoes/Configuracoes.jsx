@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../../../config/axios";
 import "./configuracoes.scss";
-import { useNavigate } from "react-router-dom";
 import images from "../../../assets/images/images";
 
 import Popup from "../Popup/Popup";
+import Spinner from "../../Spinner/Spinner";
 
 function Configuracoes() {
     const [profileImage, setProfileImage] = useState("");
@@ -14,6 +14,8 @@ function Configuracoes() {
 
     const [popupData, setPopupData] = useState({});
     const [timeouts, setTimeouts] = useState([]);
+
+    const [loading, setLoading] = useState({});
 
     function handlePopup(success, message) {
 
@@ -94,7 +96,12 @@ function Configuracoes() {
         let data;
 
         if(name === "remover-imagem") {
+            if(!profileImage) {
+                return;
+            }
+
             params = {reqType: "DELETE", endpoint: "/removerFotoPerfil"};
+            setLoading({[name]:true})
         }
         else if(name === "alterar-imagem") {
             if(!newProfileImage) {
@@ -104,6 +111,8 @@ function Configuracoes() {
             params = {endpoint: "/uploadFotoPerfil", reqType: "POST"};
             data = new FormData();
             data.append('fotoPerfil', newProfileImage);
+            setLoading({[name]:true})
+
         }
         else if(name === "alterar-senha") {
             const values = Object.values(alterarSenhaValues);
@@ -111,6 +120,7 @@ function Configuracoes() {
             if(values.length === 2 && alterarSenhaError === "") {
                 params = {endpoint: "/alterarSenhaUsuario", reqType: "PATCH"};
                 data = {...alterarSenhaValues};
+                setLoading({[name]:true})
             }
             else {
                 return;
@@ -124,13 +134,23 @@ function Configuracoes() {
         })
         .then(res => {
             handlePopup(true, res.data);
+            setLoading({});
 
-            // if(name !== "alterar-senha") {
-            //     window.location.reload()
-            // }
             if(name === "alterar-senha") {
                 setAlterarSenhaValues({});
                 window.location.reload()
+            }
+            else if(name === "alterar-imagem") {
+                localStorage.setItem("refresh", Date.now());
+                const event = new StorageEvent('storage', {key: "refresh"});
+                window.dispatchEvent(event);
+            }
+            else if(name === "remover-imagem") {
+                localStorage.setItem("refresh", Date.now());
+                setProfileImage("");
+                setNewProfileImage("");
+                const event = new StorageEvent('storage', {key: "refresh"});
+                window.dispatchEvent(event);
             }
         })
         .catch(err => {
@@ -146,7 +166,7 @@ function Configuracoes() {
                 <p>Imagem do perfil</p>
                 <div className="config-container__alterar-foto__content">
                     <div className="image-container">
-                        <div>
+                        <div className={(!profileImage) ? "no-profile-image" : ""}>
                             <img src={profileImage || images.userLogo} alt="Foto de perfil do usuário" draggable="false"/>
                         </div>
                         <input type="file" onChange={event => handleDrop(event)} allow="image/*"/>
@@ -157,12 +177,16 @@ function Configuracoes() {
                         <div>
                             <button name="remover-imagem" 
                                     onClick={event => handleSubmit(event)}>
-                                Remover
+                                {loading["remover-imagem"] && <Spinner/>}
+                                {!loading["remover-imagem"] && "Remover"}
+
+                                
                             </button>
 
                             <button name="alterar-imagem" 
                                     onClick={event => handleSubmit(event)}>
-                                        Alterar
+                                {loading["alterar-imagem"] && <Spinner/>}
+                                {!loading["alterar-imagem"] && "Alterar"}
                             </button>
                         </div>
                     </div>
@@ -193,7 +217,10 @@ function Configuracoes() {
                             <p>{alterarSenhaError}</p>
                         </div>
                     </div>
-                    <button name="alterar-senha" onClick={event => handleSubmit(event)}>Avançar</button>
+                    <button name="alterar-senha" onClick={event => handleSubmit(event)}>
+                        {loading["alterar-senha"] && <Spinner/>}
+                        {!loading["alterar-senha"] && "Avançar"}
+                    </button>
                 </div>
             </div>
         </div>

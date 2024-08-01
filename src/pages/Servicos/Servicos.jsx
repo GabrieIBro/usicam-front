@@ -5,6 +5,11 @@ import axiosInstance from "../../../config/axios";
 import "./servicos.scss";
 
 function Servicos() {
+	useEffect(() => {
+		axiosInstance.post("/analytics");
+	}, []);
+
+
 	const [images, setImages] = useState([]);
 
 	useEffect(() => {

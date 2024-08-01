@@ -1,4 +1,4 @@
-import React, {useState, useRef} from "react";
+import React, {useState, useRef, useEffect} from "react";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -8,6 +8,11 @@ import {Map, Marker, APIProvider} from "@vis.gl/react-google-maps"
 import "./contato.scss";
 
 function Contato() {
+
+	useEffect(() => {
+		axiosInstance.post("/analytics");
+	}, []);
+
 	const [values, setValues] = useState({});
 	const [errors, setErrors] = useState({});
 	const [submitResult, setSubmitResult] = useState("");

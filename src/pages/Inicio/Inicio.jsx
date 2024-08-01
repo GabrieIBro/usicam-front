@@ -1,11 +1,17 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import images from "../../assets/images/images";
 import './inicio.scss';
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../../config/axios";
 
 function Inicio() {
+	useEffect(() => {
+		axiosInstance.post("/analytics");
+	}, []);
+
+
 	const waveOnePath = `${images.inicioFirstWave}#svgView(preserveAspectRatio(none))`;
 	const waveTwoPath = `${images.inicioSecondWave}#svgView(preserveAspectRatio(none))`;
 

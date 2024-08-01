@@ -29,6 +29,11 @@ import x from "./svg/x.svg";
 import sun from "./svg/sun.svg";
 import moon from "./svg/moon.svg";
 import globe from "./svg/globe.svg";
+import lathe from "./svg/lathe.svg";
+import milling from "./svg/milling.svg";
+import cogwheel from "./svg/cogwheel.svg";
+import welding from "./svg/welding.svg"
+import plus from "./svg/plus.svg";
 
 const images = {
     logoUsicam,
@@ -55,7 +60,12 @@ const images = {
     x,
     sun,
     moon,
-    globe
+    globe,
+    lathe,
+    milling,
+    cogwheel,
+    welding,
+    plus
 }
 
 export default images;

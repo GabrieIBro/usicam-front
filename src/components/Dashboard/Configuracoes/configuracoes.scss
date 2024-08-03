@@ -159,6 +159,7 @@
                         border-radius: 5px;
                         font-size: 17px;
                         padding: 0 10px;
+                        width: 100%;
 
                         &:focus {
                             border: 1px solid black;
@@ -181,5 +182,51 @@
                 }
             }
         }
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .config-container__alterar-senha__content {
+        align-items: center;
+
+        .input-container {
+            justify-content: center;
+            align-items: center;
+
+            & > div {
+                margin: 0;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 580px) {
+    .config-container__alterar-foto {
+        min-height: 500px;
+        &__content {
+            flex-direction: column;
+            width: 100%;
+            align-items: center;
+
+            .image-container {
+                margin-bottom: 50px;
+            }
+
+            .actions-container {
+                text-align: center;
+                align-items: center;
+                width: 100%;
+
+                div {
+                    flex-wrap: wrap;
+                    justify-content: center;
+
+                    & > * {
+                        margin: 10px !important;
+                    }
+                }
+            }
+        }
+        
     }
 }

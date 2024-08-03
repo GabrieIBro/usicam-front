@@ -2,12 +2,40 @@
 @import '../../../scss/functions';
 @import '../../../scss/mixins';
 
+.mensagens-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 20px;
+    margin-top: 30px;
+    margin-bottom: 5px;
+    background-color: white;
+    box-shadow: 0px 0px 5px rgb(197, 197, 197);
+    border-radius: 5px;
+    height: 36px;
+    min-height: 36px;
+    padding: 3px;
+    padding-left: 50px;
+
+    & > div:nth-child(1) {
+        width: 203px;
+        min-width: 203px;
+    }
+    & > div:nth-child(2) {
+        width: 100%;
+    }
+    & > div:nth-child(3) {
+        width: 165px;
+        min-width: 165px;
+    }
+}
+
 .mensagens-container {
     display: flex;
     flex-direction: column;
     width: 100%;
     padding: 0px 20px;
-    margin: 30px 0;
+    margin-bottom: 30px;
     padding-bottom: 20px;
     overflow-y: scroll;
 
@@ -352,6 +380,65 @@
             top: 10px;
             background-color: rgb(255, 255, 255);
             clip-path: polygon(20% 0%, 0% 20%, 30% 50%, 0% 80%, 20% 100%, 50% 70%, 80% 100%, 100% 80%, 70% 50%, 100% 20%, 80% 0%, 50% 30%);
+        }
+    }
+}
+
+@media screen and (max-width :760px) {
+    .mensagens-controls {
+        flex-direction: column-reverse;
+        height: fit-content;
+        min-height: unset;
+
+        & > * {
+            margin: 15px 0;
+        }
+
+    }
+}
+
+@media screen and (max-width :630px) {
+    .mensagens-label {
+        & > div:nth-child(2) {
+            display: none;
+        }
+
+        div {
+            width: unset;
+            min-width: unset !important;
+        }
+    }
+    .mensagens-container {
+        .mensagens-item {
+            & > div:nth-child(3) {
+                display: none;
+            }
+        }
+    }
+}
+
+@media screen and (max-width :460px) {
+    .mensagens-controls {
+        &__date {
+            flex-direction: column;
+            margin: 0;
+
+            & > * {
+                margin: 5px 0;
+            }
+        }
+    }
+
+    .mensagens-label {
+        & > div:nth-child(3) {
+            display: none;
+        }
+    }
+    .mensagens-container {
+        .mensagens-item {
+            & > div:nth-child(4) {
+                display: none;
+            }
         }
     }
 }

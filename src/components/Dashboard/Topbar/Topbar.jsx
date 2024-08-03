@@ -48,13 +48,26 @@ function Topbar(props) {
         }, 1000)
     }, []);
 
+    function handleExpandSidebar() {
+        localStorage.setItem("expand-sidebar", true);
+        const event = new StorageEvent('storage', {key: "expand-sidebar"});
+        window.dispatchEvent(event);
+    }
+
     return(
         <div className="topbar">
+            <div className="toggle-expand">
+                {window.screen.width <= 1376 &&
+                <div className="expand-sidebar" onClick={handleExpandSidebar}>
+                    <img src={images.expand} alt="Expand sidebar" draggable="false"/>
+                </div>
+                } 
 
-            <div className={(darkMode) ? "mode-toggle-dark" : "mode-toggle-light"} onClick={handleClickDarkMode}>
-                <div>
-                    <img src={images.moon} draggable="false"></img>
-                    <img src={images.sun} draggable="false"></img>
+                <div className={(darkMode) ? "mode-toggle-dark" : "mode-toggle-light"} onClick={handleClickDarkMode}>
+                    <div>
+                        <img src={images.moon} draggable="false"></img>
+                        <img src={images.sun} draggable="false"></img>
+                    </div>
                 </div>
             </div>
 

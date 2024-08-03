@@ -585,3 +585,14 @@
         transform: rotate(-360deg);
     }
 }
+
+@media screen and (max-width: 700px) {
+    .pedidos-container__controls {
+        flex-direction: column-reverse;
+        height: unset;
+
+        & > * {
+            margin: 10px 0;
+        }
+    }
+}

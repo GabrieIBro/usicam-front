@@ -37,8 +37,10 @@
 
         p {
             font-size: 20px;
+            margin-right: 100px ;
         }
     }
+
 }
 
 .usuarios-container, .usuarios-container-modal-active {
@@ -234,12 +236,14 @@
                         color: rgb(204, 38, 38);
                         max-width: 350px;
                         overflow-x: scroll;
-                        text-wrap: nowrap;
-                        height: 30px;
+                        text-wrap: wrap;
+                        width: 100%;
+                        min-height: 30px;
                     }
     
                     input[type=text], input[type=password] {
-                        width: 350px;
+                        max-width: 350px;
+                        width: 100%;
                         height: 45px;
                         border: none;
                         box-shadow: 1px 1px 10px rgb(226, 226, 226);
@@ -445,14 +449,16 @@
                     p {
                         font-size: 17px;
                         color: rgb(204, 38, 38);
+                        width: 100%;
                         max-width: 350px;
                         overflow-x: scroll;
-                        text-wrap: nowrap;
-                        height: 30px;
+                        text-wrap: wrap;
+                        min-height: 30px;
                     }
     
                     input, .input-error {
-                        width: 350px;
+                        width: 100%;
+                        max-width: 350px;
                         height: 45px;
                         border: none;
                         box-shadow: 1px 1px 10px rgb(226, 226, 226);
@@ -509,5 +515,40 @@
 
     100% {
         max-height: 347px;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    label {
+        text-align: center;
+    }
+
+    input[type=checkbox] {
+        min-width: 20px;
+    }
+
+    .remover-usuario__content-open  {
+        .user-list {
+            
+            div {
+                overflow-x: hidden;
+
+            }
+
+        }
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .search-container {
+        flex-direction: column ;
+
+        input {
+            width: 90% !important;
+        }
+
+        .remove-button {
+            position: unset !important;
+        }
     }
 }

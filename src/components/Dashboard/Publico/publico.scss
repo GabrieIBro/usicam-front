@@ -136,3 +136,20 @@
         }
     }
 }
+
+@media screen and (max-width: 550px) {
+    .publico-container {
+        &__adicionar-imagem {
+            height: unset;
+            text-align: center;
+            
+            div {
+                flex-direction: column;
+
+                & > * {
+                    margin: 10px 0 !important;
+                }
+            }
+        }
+    }
+}

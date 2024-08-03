@@ -266,6 +266,19 @@ function Mensagens() {
                     </select>
                 </div>
             </div>
+            {messages.length !== 0 &&
+            <div className="mensagens-label">
+                <div>
+                    <p>De</p>
+                </div>
+                <div>
+                    <p>Mensagem</p>
+                </div>
+                <div>
+                    <p>Recebido</p>
+                </div>
+            </div>
+            }
             <div className="mensagens-container">
                 {messages.length === 0 && 
                 <div className="loading">

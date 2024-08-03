@@ -34,6 +34,7 @@ import milling from "./svg/milling.svg";
 import cogwheel from "./svg/cogwheel.svg";
 import welding from "./svg/welding.svg"
 import plus from "./svg/plus.svg";
+import expand from "./svg/expand.svg";
 
 const images = {
     logoUsicam,
@@ -65,7 +66,8 @@ const images = {
     milling,
     cogwheel,
     welding,
-    plus
+    plus,
+    expand
 }
 
 export default images;

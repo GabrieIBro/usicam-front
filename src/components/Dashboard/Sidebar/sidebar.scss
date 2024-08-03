@@ -2,13 +2,14 @@
 @import '../../../scss/functions';
 @import '../../../scss/mixins';
 
-.sidebar {
+.sidebar, .sidebar-expand {
     display: flex;
     flex-direction: column;
     justify-content: start;
     height: 100%;
 
     width: 275px;
+    min-width: 275px;
     background-color: rgb(250, 250, 250);
     padding: 0 20px;
 
@@ -107,4 +108,24 @@
             }
         }
     }
+}   
+
+@media screen and (max-width: 1376px) {
+    .sidebar, .sidebar-expand{
+        position: absolute;
+        z-index: 99999;
+        overflow-y: scroll;
+        left: -275px;
+        transition: all ease-in-out 125ms;
+
+        .sair {
+            margin-top: auto;
+        }
+    }
+
+    .sidebar-expand {
+        left: 0;
+        transition: all ease-in-out 125ms;
+    }
+
 }

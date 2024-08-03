@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./sidebar.scss";
 import images from "../../../assets/images/images";
@@ -20,8 +20,46 @@ function Sidebar() {
         }
     }
     
+    const [expand, setExpand] = useState(false);
+
+    useEffect(() => {
+        function expand(e) {
+            console.log(e);
+            if(e.key === "expand-sidebar" || e.value === true) {
+                setExpand(true)
+            }
+        }
+
+        function collapse() {
+            setExpand(false);
+        }
+
+        window.addEventListener("storage", expand);
+        window.addEventListener("resize", collapse);
+
+
+        return () => {
+            window.removeEventListener("storage", expand);
+            window.addEventListener("resize", collapse);
+        }
+    }, [])
+
+    useEffect(() => {
+        function collapseSidebar(e) {
+            if(e.clientX > 275) {
+                setExpand(false);
+            }
+        }
+
+        window.addEventListener("click", collapseSidebar);
+
+        return () => [
+            window.removeEventListener("click", collapseSidebar)
+        ]
+    })
+
     return(
-        <div className="sidebar">
+        <div className={(expand) ? "sidebar-expand" : "sidebar"}>
             <div className="sidebar__logo">
                 <img src={images.logoUsicam} alt="USICAM logo" draggable="false" />
             </div>

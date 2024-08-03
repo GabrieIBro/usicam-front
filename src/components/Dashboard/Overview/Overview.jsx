@@ -1,10 +1,19 @@
 import React from "react";
+import "./overview.scss";
 
 function Overview() {
     return(
-        <>
-        <h1>Inicio</h1>
-        </>
+        <div className="overview-container">
+            <div className="overview-container__widget">
+                <p>Faturamento Bruto</p>
+            </div>
+            <div className="overview-container__widget">
+                <p>Faturamento Líquido</p>
+            </div>
+            <div className="overview-container__widget">
+                <p>Faturamento Bruto</p>
+            </div>
+        </div>
     )
 }
 

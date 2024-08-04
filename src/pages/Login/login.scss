@@ -17,7 +17,7 @@
     padding: 30px 70px;
     transform: rotate(-3deg);
     background-color: rgba(232, 233, 235, 0.979);
-    width: 1000px;
+    max-width: 1000px;
     height: 400px;
     border-radius: 10px;
     box-shadow: 4px 4px 50px 10px #12174238;
@@ -79,7 +79,8 @@
 
             input {
                 height: 45px;
-                width: 350px;
+                max-width: 350px;
+                width: 95%;
                 border-radius: 7px;
                 border: solid 1px $light-gray;
                 font-size: 18px;
@@ -175,5 +176,62 @@
     100% {
         width: 100px;
         left: 100%;
+    }
+}
+
+@media screen and (max-width: 1050px) {
+    .login-container {
+        text-align: center;
+
+        flex-direction: column;
+        height: unset;
+        h1 {
+            font-size: 2rem !important; 
+        }
+
+        &::after {
+            display: none;
+        }
+    }
+
+    .navigation-buttons {
+        button {
+            margin: 0 10px !important;
+        }
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .login-container {
+        padding: 20px;        
+        margin: 0 10px;
+        .title-section {
+            h1 {
+                font-size: 1.5rem !important; 
+            }
+
+            p {
+                font-size: 1rem !important;
+            }            
+        }
+    }
+
+    .login-fields {
+        margin-top: 25px;
+    }
+
+    .login-background {
+        background: none;
+    }
+}
+
+@media screen and (max-width: 350px) {
+    .navigation-buttons {
+        flex-direction: column;
+        margin: unset !important;
+
+        & > button {
+            margin: 5px 0 !important;
+        }
     }
 }

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+
+<svg
+   fill="#000000"
+   width="666.67273"
+   height="745.92468"
+   viewBox="0 0 20.000183 22.377741"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="bell.svg"
+   inkscape:version="1.3.2 (091e20ef0f, 2023-11-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.80431829"
+     inkscape:cx="147.95138"
+     inkscape:cy="394.74422"
+     inkscape:window-width="1920"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <path
+     fill-rule="evenodd"
+     d="m 10.000259,0.87671723 c -3.6820001,0 -7.0000003,2.56499997 -7.0000003,5.99999987 v 4.5389999 a 3.25,3.25 0 0 1 -0.546,1.803 l -2.20000002,3.299 a 1.518,1.518 0 0 0 1.26500002,2.359 h 4.9810002 a 3.5000002,3.5000002 0 1 0 7.0000001,0 h 4.982 a 1.518,1.518 0 0 0 1.263,-2.36 l -2.2,-3.298 a 3.25,3.25 0 0 1 -0.545,-1.803 V 6.8767171 c 0,-3.4349999 -3.319,-5.99999987 -7,-5.99999987 z M 4.5002587,6.8767171 c 0,-2.364 2.3830002,-4.4999999 5.5000003,-4.4999999 3.117,0 5.5,2.1359999 5.5,4.4999999 v 4.5389999 c 0,0.938 0.278,1.854 0.798,2.635 l 2.199,3.299 a 0.017,0.017 0 0 1 0.003,0.01 l -0.001,0.006 -0.004,0.006 -0.006,0.004 -0.007,10e-4 H 1.5182587 l -0.007,-10e-4 -0.006,-0.004 -0.004,-0.006 -10e-4,-0.007 0.003,-0.01 2.2,-3.298 a 4.75,4.75 0 0 0 0.797,-2.635 z M 12.000259,18.876717 H 8.0002589 a 2.0000002,2.0000002 0 1 0 4.0000001,0 z"
+     id="path1" />
+  <circle
+     style="fill:none;stroke:#000000;stroke-width:0.6;stroke-linejoin:round;stroke-miterlimit:6.7;stroke-dasharray:none;paint-order:stroke fill markers"
+     id="path2"
+     cx="9.9937077"
+     cy="0.99194485"
+     r="0.69194484" />
+</svg>

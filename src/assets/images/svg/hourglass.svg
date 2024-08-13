@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+
+<svg
+   fill="#000000"
+   width="533.33331"
+   height="666.66669"
+   viewBox="0 0 15.999999 20.000001"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="hourglass.svg"
+   inkscape:version="1.3.2 (091e20ef0f, 2023-11-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.40841277"
+     inkscape:cx="-77.127853"
+     inkscape:cy="405.22729"
+     inkscape:window-width="1920"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <path
+     d="M 6.7076837,11.951637 C 6.0410537,12.24794 4.8403025,13.092955 4.8403025,13.092955 3.9783904,13.619504 3.45554,14.537329 3.4552981,15.524228 v 2.638303 h 9.1359129 v -2.638303 c -2.42e-4,-0.986899 -0.523092,-1.904724 -1.385004,-2.431273 0,0 -1.203014,-0.839974 -1.8673803,-1.141318 -0.203527,-0.09232 -0.420852,-0.155788 -0.639902,-0.200086 -0.220921,-0.04468 -0.447673,-0.06534 -0.673066,-0.06483 -0.215256,4.88e-4 -0.431297,0.02328 -0.642506,0.06483 -0.230474,0.04534 -0.461026,0.104682 -0.675669,0.200086 z"
+     style="fill-rule:evenodd;stroke-width:0.899051;paint-order:stroke fill markers"
+     id="path1-5"
+     sodipodi:nodetypes="accccccaaaaa" />
+  <path
+     fill-rule="evenodd"
+     d="m 0.7499997,0 c -0.9999996,0 -0.9999996,1.5 0,1.5 h 0.75 v 2.982 c -6e-7,1.6304043 0.8361935,3.146879 2.215,4.017 l 2.044,1.29 c 0.1545523,0.09821 0.1545523,0.323785 0,0.422 l -2.044,1.29 c -1.3788065,0.870121 -2.2150006,2.386596 -2.215,4.017 V 18.5 h -0.75 c -0.9999996,0 -0.9999996,1.5 0,1.5 H 15.25 c 1,0 1,-1.5 0,-1.5 H 14.5 v -2.982 c 10e-7,-1.630404 -0.836193,-3.146879 -2.215,-4.017 l -2.044,-1.29 c -0.154552,-0.09821 -0.154552,-0.323785 0,-0.422 l 2.044,-1.29 C 13.663807,7.628879 14.500001,6.1124043 14.5,4.482 V 1.5 h 0.75 c 1,0 1,-1.5 0,-1.5 z M 13,1.5 H 2.9999997 v 2.982 c 2.648e-4,1.1154642 0.5725673,2.1528569 1.516,2.748 l 2.044,1.29 c 1.088183,0.686631 1.088183,2.273369 0,2.96 l -2.044,1.29 c -0.9434327,0.595143 -1.5157352,1.632536 -1.516,2.748 V 18.5 H 13 V 15.518 C 12.999735,14.402536 12.427433,13.365143 11.484,12.77 L 9.4399997,11.48 c -1.088183,-0.686631 -1.088183,-2.273369 0,-2.96 L 11.484,7.23 C 12.427433,6.6348569 12.999735,5.5974642 13,4.482 Z"
+     id="path1"
+     sodipodi:nodetypes="sscsccccscsssscsccccscsssccccccccccccccccc" />
+</svg>

@@ -83,10 +83,7 @@ function ModalSenha({open, onClose, data, params, response, onSuccess}) {
             response({status: err?.response.status, message: err?.response.data || err.message});
         })
         .finally(() => {
-            setTimeout(() => {
-                setLoading(false);
-
-            }, 2000)
+            setLoading(false);
         })
 
 

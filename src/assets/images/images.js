@@ -35,6 +35,9 @@ import cogwheel from "./svg/cogwheel.svg";
 import welding from "./svg/welding.svg"
 import plus from "./svg/plus.svg";
 import expand from "./svg/expand.svg";
+import bell from "./svg/bell.svg";
+import hourglass from "./svg/hourglass.svg";
+import stopwatch from "./svg/stopwatch.svg";
 
 const images = {
     logoUsicam,
@@ -67,7 +70,10 @@ const images = {
     cogwheel,
     welding,
     plus,
-    expand
+    expand,
+    bell,
+    hourglass,
+    stopwatch
 }
 
 export default images;
